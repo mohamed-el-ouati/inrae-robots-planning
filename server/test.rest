@@ -1,0 +1,76 @@
+### 
+GET http://localhost:3001/trajectories/available/?plot_id=3&end="2025-02-20 14:00:00"&start="2024-02-19 17:00:00"
+
+### 
+GET http://localhost:3001/tasks
+### 
+POST http://localhost:3001/robots/
+Content-Type: application/json
+
+{
+  "weight": 500,
+  "name"  : "robot1",
+  "description" : "robot1",
+  "puissance_kwh" : 100,
+  "recharge_time" : "02:00:00",
+  "operating_time"  : "02:00:00",
+  "frontaxle_steeringspeed" : 10,
+  "maxangle_steering": 10,
+  "rearaxle_steeringspeed": 10,
+  "id_powercat" : 1,
+  "availableTill" : "2024-02-19 17:00:00",
+  "steering_wheel": 1,
+  "driving_wheel" : 1,
+  "dim_length" : 10,
+  "dim_width" : 10,
+  "dim_height"  : 10
+}
+ 
+###
+GET http://localhost:3001/robots-power-categories
+###
+GET http://localhost:3001/tasks
+
+###
+POST http://localhost:3001/itks
+Content-Type: application/json
+
+###
+GET http://localhost:3001/robots/available/?start="2024-04-19 02:00:00"&end="2024-02-19 17:00:00"
+
+###
+POST http://localhost:3001/configurations
+Content-Type: application/json
+
+{
+  "itk_id": 0
+ 
+}
+###
+POST http://localhost:3001/configurations-ref
+Content-Type: application/json
+
+{
+  "configuration_ref_id" : 139,
+  "configuration_id": 99
+  
+}
+
+###
+POST http://localhost:3001/configurations
+Content-Type: application/json
+
+{
+  "workdurationmax": "00:20:00",
+  "workspeedmax": "00:20:00",
+  "timemount": "09:00:00",
+  "timeunmount": "17:00:00",
+  "robot_id": 4,
+  "activity_id": 100,
+  "equipment_id": 4,
+  "start_date": "2024-04-01",
+  "end_date": "2024-04-30"
+}
+
+###
+DELETE  http://localhost:3001/configurations-ref/8

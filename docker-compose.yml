@@ -1,0 +1,36 @@
+version: "3"
+services:
+  server:
+    build: ./server
+    ports:
+      - 13000:3001
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: 1919
+      DB_NAME: db-inrae
+
+  db:
+    build: ./db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 1919
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db-inrae
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  client:
+    build: ./client
+    ports:
+      - 3000:3000
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:
