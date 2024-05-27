@@ -1,5 +1,7 @@
 ### 
 GET http://localhost:3001/trajectories/available/?plot_id=3&end="2025-02-20 14:00:00"&start="2024-02-19 17:00:00"
+### 
+GET http://localhost:3001/trajectories/points
 
 ### 
 GET http://localhost:3001/tasks

@@ -18,13 +18,13 @@ import {
 } from "@/components/ui/popover";
 import { TimePickerDemo } from "../../../../../components/time-picker/time-picker-demo";
 
-type ConfigurationFormStepProps = {
+type TimeStepProps = {
   form: any;
 };
 
-const ConfigurationFormStep = ({ form }: ConfigurationFormStepProps) => {
+const TimeStep = ({ form }: TimeStepProps) => {
   return (
-    <>
+    <div className="max-w-[400px] w-full flex flex-col gap-4">
       <h2 className="text-2xl font-semibold">Time</h2>
       <FormField
         control={form.control}
@@ -106,8 +106,8 @@ const ConfigurationFormStep = ({ form }: ConfigurationFormStepProps) => {
           </FormItem>
         )}
       />
-    </>
+    </div>
   );
 };
 
-export default ConfigurationFormStep;
+export default TimeStep;

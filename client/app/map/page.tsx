@@ -1,8 +1,8 @@
 import React from "react";
-import PlotStep from "../(tasks)/tasks/add-task/_steps/PlotStep";
+import TrajectoryMap from "@/components/TrajectoryMap";
 
 const page = () => {
-  return <PlotStep />;
+  return <TrajectoryMap />;
 };
 
 export default page;

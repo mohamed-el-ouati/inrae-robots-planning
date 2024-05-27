@@ -13,12 +13,12 @@ import { fetcher } from "@/lib/fetcher";
 import useSWR from "swr";
 import { formatDuration } from "@/lib/utils/utils";
 
-type RobotFormStepProps = {
+type RobotStepProps = {
   form: any;
   url: string;
 };
 
-const RobotFormStep = ({ form, url }: RobotFormStepProps) => {
+const RobotStep = ({ form, url }: RobotStepProps) => {
   const { data: robots, error, isLoading } = useSWR(url, fetcher);
 
   if (isLoading) return <div>Loading...</div>;
@@ -28,8 +28,8 @@ const RobotFormStep = ({ form, url }: RobotFormStepProps) => {
       control={form.control}
       name="robot"
       render={({ field }) => (
-        <FormItem className="space-y-3">
-          <FormLabel className="text-2xl font-semibold">Select Robot</FormLabel>
+        <FormItem className="space-y-3 w-3/4">
+          <FormLabel className="text-2xl font-semibold">Robot</FormLabel>
           <FormControl>
             <ToggleGroup
               type="single"
@@ -109,4 +109,4 @@ const RobotFormStep = ({ form, url }: RobotFormStepProps) => {
   );
 };
 
-export default RobotFormStep;
+export default RobotStep;

@@ -29,7 +29,7 @@ const SelectFormStep = ({ form, name, url }: SelectFormStepProps) => {
   if (error) return <div>Error loading data</div>;
 
   return (
-    <>
+    <div className="max-w-[400px] w-full flex flex-col gap-4">
       <h2 className="text-2xl font-semibold">{formatAndCapitalize(name)}</h2>
       <FormField
         control={form.control}
@@ -65,7 +65,7 @@ const SelectFormStep = ({ form, name, url }: SelectFormStepProps) => {
           </FormItem>
         )}
       />
-    </>
+    </div>
   );
 };
 

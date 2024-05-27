@@ -28,6 +28,6 @@
     ".next/types/**/*.ts",
     "app/(robots)/robots/columns.tsx",
     "utils/timeValidation.ts"
-, "components/MapBox.jsx"  ],
+, "components/PlotMap.jsx"  ],
   "exclude": ["node_modules"]
 }

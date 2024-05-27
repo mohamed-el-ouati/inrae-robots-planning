@@ -21,6 +21,23 @@ exports.getAvailableTrajectories = async (req, res) => {
   }
 };
 
+exports.getTrajectoriesPoints = async (req, res) => {
+  try {
+    const data = await pool.query(
+      "SELECT point, id FROM point_timeref ORDER BY id ASC, ord_id ASC"
+    );
+
+    if (data.rows.length > 0) {
+      res.status(200).json(data.rows); // Send the configurations with activity names
+    } else {
+      res.status(404).json({ message: "No configurations found" }); // If no configurations are found
+    }
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500); // Internal server error
+  }
+};
+
 exports.addTrajectory = async (req, res) => {
   try {
     const { name, id, configuration_id, order, start_date, plot_id } = req.body;
