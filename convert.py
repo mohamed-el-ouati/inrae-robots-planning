@@ -1,42 +1,51 @@
+import datetime
 import json
+import folium
+from pyproj import Proj, transform
 import psycopg2
-from datetime import datetime
 
-# Connexion à la base de données PostgreSQL
-conn = psycopg2.connect(
-    dbname="db6",
-    user="postgres",
-    password="1919",
-    host="localhost",
-    port="5432"
-)
+
+file_path = 'C:/Users/ayhatmi/Desktop/paths/montoldre_rose2_cc.traj'
+
+with open(file_path, 'r') as file:
+    data = json.load(file)
+
+
+origin_lat, origin_lon, origin_alt = data['origin']['coordinates']
+points = data['points']['values']
+
+
+local_points = [(point[0], point[1]) for point in points]
+
+wgs84 = Proj(init='epsg:4326')  # WGS84
+local_proj = Proj(proj='aeqd', lat_0=origin_lat, lon_0=origin_lon)
+
+geo_points = [transform(local_proj, wgs84, x, y) for x, y in local_points]
+
+
+m = folium.Map(location=[origin_lat, origin_lon], zoom_start=15)
+
+dbname="db6"
+user="postgres"
+password="1919"
+host="localhost"
+port="5432"
+
+
+conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
 cur = conn.cursor()
 
-# Charger le fichier .tarj
-with open('montoldre_demo4.traj', 'r') as f:
-    data = json.load(f)
+insert_query = "INSERT INTO public.point_timeref (id, point, speed, ord_id, storage_timestamp) VALUES (130, ST_GeomFromText('SRID=4326;POINT(%s %s)'), %s, %s, %s)"
 
-origin = data['origin']
-origin_coords = origin['coordinates']
+speed = 0.0  
+storage_timestamp = datetime.date(2022,12,22) 
+ord_id = 0
 
+for lon, lat in geo_points:
+    ord_id = ord_id + 1
+    cur.execute(insert_query, (lon, lat, speed, ord_id + 1, storage_timestamp))
 
-# Insérer les données dans la base de données
-for ord_id, point in enumerate(data['points']['values']):
-    x, y, speed = point
-    abs_x, abs_y = origin_coords[0] + x, origin_coords[1] + y
-    
-    # Créer un objet Point avec le SRID 4326
-    point_sql = f"ST_SetSRID(ST_MakePoint({abs_x}, {abs_y}), 4326)"
-    
-    # Assigner un timestamp actuel pour le champ storage_timestamp
-    storage_timestamp = datetime.now()
-    
-    cur.execute("""
-        INSERT INTO point_timeref (id, point, speed, ord_id, storage_timestamp)
-        VALUES (%s, ST_SetSRID(ST_MakePoint(%s, %s), 4326), %s, %s, %s)
-    """, (123, abs_x, abs_y, speed, ord_id, storage_timestamp))
-
-# Valider la transaction et fermer la connexion
 conn.commit()
 cur.close()
 conn.close()
+

@@ -22,19 +22,29 @@ exports.getAvailableTrajectories = async (req, res) => {
 };
 
 exports.getTrajectoriesPoints = async (req, res) => {
+  const query = `
+    SELECT pt.*
+    FROM public.point_timeref pt
+    JOIN public.plot p ON ST_Within(ST_SetSRID(pt.point, 4326), p.geom) 
+    WHERE p.id = $1 
+    ORDER BY pt.id ASC, pt.ord_id ASC;
+  `;
+
   try {
-    const data = await pool.query(
-      "SELECT point, id FROM point_timeref ORDER BY id ASC, ord_id ASC"
-    );
+    const plotId = req.params.id;
+
+    const data = await pool.query(query, [plotId]);
 
     if (data.rows.length > 0) {
-      res.status(200).json(data.rows); // Send the configurations with activity names
+      res.status(200).json(data.rows);
     } else {
-      res.status(404).json({ message: "No configurations found" }); // If no configurations are found
+      res
+        .status(404)
+        .json({ message: "No trajectories found for the specified plot" }); // No data found
     }
   } catch (err) {
-    console.error(err);
-    res.sendStatus(500); // Internal server error
+    console.error("Error querying the database:", err);
+    res.sendStatus(500);
   }
 };
 

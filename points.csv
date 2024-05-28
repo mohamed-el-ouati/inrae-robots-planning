@@ -1,4 +1,0 @@
-id,point,speed,ord_id,storage_timestamp
-1,"ST_SetSRID(ST_MakePoint(12.6537, 13.3854), 4326)",0.818749,nextval('ord_id_sequence'),TO_TIMESTAMP(1716558929.9007967)
-2,"ST_SetSRID(ST_MakePoint(12.4312, 13.4971), 4326)",0.842073,nextval('ord_id_sequence'),TO_TIMESTAMP(1716558929.9007967)
-3,"ST_SetSRID(ST_MakePoint(12.1788, 13.6107), 4326)",0.839848,nextval('ord_id_sequence'),TO_TIMESTAMP(1716558929.9007967)
