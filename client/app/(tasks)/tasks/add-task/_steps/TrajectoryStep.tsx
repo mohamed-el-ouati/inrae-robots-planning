@@ -1,5 +1,4 @@
-import TrajectoryMap from "@/components/TrajectoryMap";
-import React from "react";
+import SelectTrajectoryMap from "@/components/SelectTrajectoryMap";
 
 const TrajectoryStep = () => {
   return (
@@ -8,7 +7,7 @@ const TrajectoryStep = () => {
       <p className="text-muted-foreground mb-2 text-sm">
         Select a trajectory on the map.
       </p>
-      <TrajectoryMap />
+      <SelectTrajectoryMap />
     </div>
   );
 };

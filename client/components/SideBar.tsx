@@ -26,8 +26,7 @@ const SideBar = () => {
     { label: "ITK Planning", href: "/add-itk", icon: CalendarPlus },
     { label: "ITKs", href: "/itks", icon: Sprout },
     { label: "Calendar", href: "/calendar", icon: Calendar },
-
-    { label: "Map", href: "/map", icon: Map },
+    { label: "Trajectories", href: "/trajectories", icon: Map },
   ];
   const recources = [{ label: "Robot", href: "/robots", icon: Tractor }];
   const pathname = usePathname();

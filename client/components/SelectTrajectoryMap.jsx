@@ -1,14 +1,40 @@
 "use client";
-
+import { fetcher } from "@/lib/fetcher";
+import useSWR from "swr";
+import { Geometry } from "wkx";
 import Map, { Source, Layer } from "react-map-gl";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import useTrajectoryStore from "@/lib/store/TrajectoryStore";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { convertWKBToCoordinates } from "@/lib/utils/map-utils";
+import usePlotStore from "@/lib/store/PlotStore";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-const TrajectoryMap = ({ data, styles, isMontoldre = false }) => {
+const SelectTrajectoryMap = () => {
   const mapRef = useRef(null);
+  const [clickedFeatureId, setClickedFeatureId] = useState(null);
+  const setTrajectory = useTrajectoryStore((state) => state.setTrajectory);
+
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const plot = usePlotStore((state) => state.plot);
+  const url = `${baseUrl}/trajectories/points/${plot?.id}`;
+  const { data, error, isLoading } = useSWR(url, fetcher);
+
+  const convertWKBToCoordinates = (wkbString) => {
+    try {
+      const buffer = Buffer.from(wkbString, "hex");
+      const geometry = Geometry.parse(buffer);
+      return geometry.toGeoJSON().coordinates;
+    } catch (error) {
+      console.error("Error converting WKB to coordinates", error);
+      return null;
+    }
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data</div>;
+
+  // Ensure data is an array
   const isDataValid = Array.isArray(data) && data.length > 0;
 
   // Group points by id
@@ -37,26 +63,27 @@ const TrajectoryMap = ({ data, styles, isMontoldre = false }) => {
     id: "trajectory",
     type: "line",
     paint: {
-      "line-color": "#0000FF",
+      "line-color": [
+        "case",
+        ["boolean", ["==", ["get", "id"], clickedFeatureId]],
+        "#ff0000",
+        "#0000FF",
+      ],
       "line-width": 3,
     },
+  };
+
+  const handleClick = (e) => {
+    const features = e.target.queryRenderedFeatures(e.point);
+    const clickedId = features[0]?.properties.id;
+    setClickedFeatureId(clickedId);
+    setTrajectory({ id: clickedId, name: "traj" + clickedId });
+    console.log(clickedId);
   };
 
   const initialCoordinates = trajectoryGeoJSONs.length
     ? trajectoryGeoJSONs[0].geometry.coordinates[0]
     : [3.4438053725502584, 46.337344991089594];
-
-  const initialViewStateMontoldre = {
-    longitude: 3.4438053725502584,
-    latitude: 46.337344991089594,
-    zoom: 13.5,
-  };
-
-  const initialViewState = {
-    longitude: initialCoordinates[0],
-    latitude: initialCoordinates[1],
-    zoom: 15.5,
-  };
 
   return (
     <div className="w-full">
@@ -67,14 +94,19 @@ const TrajectoryMap = ({ data, styles, isMontoldre = false }) => {
       ) : (
         <Map
           ref={mapRef}
-          initialViewState={
-            isMontoldre ? initialViewStateMontoldre : initialViewState
-          }
+          initialViewState={{
+            longitude: initialCoordinates[0],
+            latitude: initialCoordinates[1],
+            zoom: 15.5,
+          }}
           mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
           mapboxAccessToken={MAPBOX_TOKEN}
           style={{
-            ...styles,
+            height: "60vh",
+            maxHeight: 700,
+            borderRadius: 10,
           }}
+          onClick={handleClick}
           attributionControl={false}
         >
           {trajectoryGeoJSONs.map((geoJSON, index) => (
@@ -93,4 +125,4 @@ const TrajectoryMap = ({ data, styles, isMontoldre = false }) => {
   );
 };
 
-export default TrajectoryMap;
+export default SelectTrajectoryMap;
