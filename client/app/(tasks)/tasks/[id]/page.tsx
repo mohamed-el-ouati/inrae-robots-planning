@@ -41,7 +41,7 @@ const TaskPage: React.FC<TaskPageProps> = async ({ params }) => {
     <DetailsCard
       title={"Task Details"}
       data={convertOjectToKeyValueArray(task)}
-      hasAnImage={false}
+      image={null}
       editBtnLink={`/`}
       deleteUrl={`http://localhost:3001/configurations-ref/${params.id}`}
     />

@@ -12,17 +12,13 @@ import {
   textLayerStyle,
 } from "./plot-map-style";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const PlotMap = () => {
+const PlotMap = ({ data }) => {
   const mapRef = useRef(null);
   const [clickedFeatureId, setClickedFeatureId] = useState(null);
   const setPlot = usePlotStore((state) => state.setPlot);
-  const { data, error, isLoading } = useSWR(`${baseUrl}/plots`, fetcher);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data</div>;
 
   const parsedData = data.map((item) => {
     const geometry = Geometry.parse(Buffer.from(item.geom, "hex"));
@@ -36,16 +32,6 @@ const PlotMap = () => {
   const geojson = {
     type: "FeatureCollection",
     features: parsedData,
-  };
-
-  const handleClick = (e) => {
-    const features = e.target.queryRenderedFeatures(e.point, {
-      layers: ["plot"],
-    });
-    const clickedId = features[0]?.properties.id;
-    const plotName = features[0]?.properties.name;
-    setClickedFeatureId(clickedId);
-    setPlot({ id: clickedId, name: plotName });
   };
 
   return (
@@ -63,7 +49,6 @@ const PlotMap = () => {
         maxHeight: 700,
         borderRadius: 10,
       }}
-      onClick={handleClick}
       attributionControl={false}
     >
       <Source id="plots" type="geojson" data={geojson}>

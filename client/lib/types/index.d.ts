@@ -35,6 +35,18 @@ export type Trajectory = {
   plot_name: string;
 };
 
+export type Plot = {
+  id: number;
+  name: string;
+};
+
+export type Equipment = {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+};
+
 export type Task = {
   id: number;
   start_date: Date;

@@ -16,7 +16,13 @@ const MapView = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
 
-  return <TrajectoryMap data={data} isMontoldre={true} styles={mapStyles} />;
+  return (
+    <TrajectoryMap
+      trajectoryData={data}
+      isMontoldre={true}
+      styles={mapStyles}
+    />
+  );
 };
 
 export default MapView;

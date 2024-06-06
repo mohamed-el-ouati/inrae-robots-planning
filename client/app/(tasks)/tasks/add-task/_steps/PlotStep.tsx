@@ -1,6 +1,6 @@
 "use client";
 
-import PlotMap from "@/components/PlotMap";
+import SelectPlotMap from "@/components/SelectPlotMap";
 
 const PlotStep = () => {
   return (
@@ -9,7 +9,7 @@ const PlotStep = () => {
       <p className="text-muted-foreground mb-2 text-sm">
         Select a plot on the map.
       </p>
-      <PlotMap />
+      <SelectPlotMap />
     </div>
   );
 };

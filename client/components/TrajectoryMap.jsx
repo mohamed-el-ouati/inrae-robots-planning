@@ -4,16 +4,43 @@ import Map, { Source, Layer } from "react-map-gl";
 import { useRef } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { convertWKBToCoordinates } from "@/lib/utils/map-utils";
+import { Geometry } from "wkx";
+import { fetcher } from "@/lib/fetcher";
+import useSWR from "swr";
+import { layerOutlineStyle, textLayerStyle } from "./plot-map-style";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const TrajectoryMap = ({ data, styles, isMontoldre = false }) => {
+const TrajectoryMap = ({ trajectoryData, styles, isMontoldre = false }) => {
   const mapRef = useRef(null);
-  const isDataValid = Array.isArray(data) && data.length > 0;
+  const isDataValid =
+    Array.isArray(trajectoryData) && trajectoryData.length > 0;
 
+  const { data, error, isLoading } = useSWR(`${baseUrl}/plots`, fetcher);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data</div>;
+
+  // Plots
+  const parsedData = data.map((item) => {
+    const geometry = Geometry.parse(Buffer.from(item.geom, "hex"));
+    return {
+      type: "Feature",
+      geometry: geometry.toGeoJSON(),
+      properties: { id: item.id, name: item.name },
+    };
+  });
+
+  const plotsGeoJSONs = {
+    type: "FeatureCollection",
+    features: parsedData,
+  };
+
+  // Trajectories data
   // Group points by id
   const groupedPoints = isDataValid
-    ? data.reduce((acc, { point, id }) => {
+    ? trajectoryData.reduce((acc, { point, id }) => {
         if (!acc[id]) acc[id] = [];
         const coordinates = convertWKBToCoordinates(point);
         if (coordinates) acc[id].push(coordinates);
@@ -87,6 +114,10 @@ const TrajectoryMap = ({ data, styles, isMontoldre = false }) => {
               <Layer {...layerStyle} id={`layer-${index}`} />
             </Source>
           ))}
+          <Source id="plots" type="geojson" data={plotsGeoJSONs}>
+            <Layer {...layerOutlineStyle} />
+            <Layer {...textLayerStyle} />
+          </Source>
         </Map>
       )}
     </div>

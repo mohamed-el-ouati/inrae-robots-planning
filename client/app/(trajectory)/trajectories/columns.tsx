@@ -57,9 +57,11 @@ export const columns: ColumnDef<Trajectory>[] = [
 
             if (!tajectoryRefResponse.ok || !tajectoryPointsResponse.ok)
               throw new Error("Failed to delete the robot");
+
             toast({
               title: "Trajectory deleted successfully!",
             });
+            router.refresh();
           } catch (error) {
             toast({
               title: "There was an error deleting the trajectory.",
@@ -85,7 +87,6 @@ export const columns: ColumnDef<Trajectory>[] = [
             <DropdownMenuItem
               onClick={() => {
                 DeleteTrajectory(trajectory.id, trajectory.traj_name);
-                router.refresh();
               }}
             >
               Delete

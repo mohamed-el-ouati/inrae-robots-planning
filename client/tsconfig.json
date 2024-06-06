@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "app/(robots)/robots/columns.tsx",
     "utils/timeValidation.ts",
-    "components/PlotMap.jsx",
+    "components/SelectPlotMap.jsx",
     "app/(trajectory)/add-trajectory/TrajectoryForm.jsx"
   ],
   "exclude": ["node_modules"]

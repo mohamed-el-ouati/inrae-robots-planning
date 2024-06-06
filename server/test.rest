@@ -1,7 +1,7 @@
 ### 
 GET http://localhost:3001/trajectories/available/?plot_id=3&end="2025-02-20 14:00:00"&start="2024-02-19 17:00:00"
 ### 
-GET http://localhost:3001/trajectories/502
+GET http://localhost:3001/equipments/4
 ### 
 GET http://localhost:3001/tasks
 ### 
@@ -25,7 +25,7 @@ Content-Type: application/json
 ###
 GET http://localhost:3001/robots-power-categories
 ###
-GET http://localhost:3001/tasks
+GET http://localhost:3001/plots/
 
 ###
 POST http://localhost:3001/itks
@@ -35,12 +35,230 @@ Content-Type: application/json
 GET http://localhost:3001/robots/available/?start="2024-04-19 02:00:00"&end="2024-02-19 17:00:00"
 
 ###
-POST http://localhost:3001/configurations
+POST http://localhost:3001/equipments
 Content-Type: application/json
 
 {
-  "itk_id": 0
- 
+    "name": "Semoir gravitaire",
+    "working_width_m": null,
+    "trailed_or_carried": "Carried",
+    "required_power_kw": null,
+    "number_of_teeth": null,
+    "tooth_width_cm": null,
+    "capacity_l": null,
+    "hitch": 3,
+    "pneumatic": false,
+    "power_take_off": false,
+    "hitch_ground_clearance": null,
+    "weight_kg": null
+   }
+
+
+# [
+#   {
+#     "name": "Bineuse",
+#     "working_width_m": 1.6,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": 7.35,
+#     "number_of_teeth": 4,
+#     "tooth_width_cm": 25,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": 37,
+#     "weight_kg": 196,
+#     "imagePath": "img/image2.png"
+#   },
+#   {
+#     "name": "Vibroculteur",
+#     "working_width_m": 1.6,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": 39.71,
+#     "number_of_teeth": 9,
+#     "tooth_width_cm": 18,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": 36,
+#     "weight_kg": 192,
+#     "imagePath": "img/image3.png"
+#   },
+#   {
+#     "name": "Herse étrille",
+#     "working_width_m": 2,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": 29.41,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": 46,
+#     "weight_kg": 220,
+#     "imagePath": "img/image4.png"
+#   },
+#   {
+#     "name": "Semoir monosem",
+#     "working_width_m": null,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": null,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": true,
+#     "power_take_off": true,
+#     "hitch_ground_clearance": null,
+#     "weight_kg": 600,
+#     "imagePath": "img/image5.png"
+#   },
+#   {
+#     "name": "Bineuse réglable",
+#     "working_width_m": 2,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": 7.35,
+#     "number_of_teeth": 3,
+#     "tooth_width_cm": 23.5,
+#     "capacity_l": null,
+#     "hitch": null,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": 10,
+#     "weight_kg": 183,
+#     "imagePath": "img/image6.png"
+#   },
+#   {
+#     "name": "Epandeur Spando",
+#     "working_width_m": 24,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": null,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": 60,
+#     "hitch": 3,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": null,
+#     "weight_kg": 40,
+#     "imagePath": "img/image7.png"
+#   },
+#   {
+#     "name": "Pulvérisateur",
+#     "working_width_m": 2,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": null,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": true,
+#     "power_take_off": true,
+#     "hitch_ground_clearance": null,
+#     "weight_kg": 600,
+#     "imagePath": "img/image8.png"
+#   },
+#   {
+#     "name": "Rampe de pulvérisation",
+#     "working_width_m": 2,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": null,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": true,
+#     "power_take_off": true,
+#     "hitch_ground_clearance": null,
+#     "weight_kg": 600,
+#     "imagePath": "img/image9.png"
+#   },
+#   {
+#     "name": "Pulvérisateur Operose",
+#     "working_width_m": 2,
+#     "trailed_or_carried": "Trailed",
+#     "required_power_kw": null,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": null,
+#     "weight_kg": 60,
+#     "imagePath": "img/image10.png"
+#   },
+#   {
+#     "name": "Rouleau Croskill",
+#     "working_width_m": 2.6,
+#     "trailed_or_carried": "Trailed",
+#     "required_power_kw": 36.77,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": null,
+#     "weight_kg": 1200,
+#     "imagePath": "img/image11.png"
+#   },
+#   {
+#     "name": "Herse à doigt",
+#     "working_width_m": 2,
+#     "trailed_or_carried": "Carried",
+#     "required_power_kw": 29.41,
+#     "number_of_teeth": null,
+#     "tooth_width_cm": null,
+#     "capacity_l": null,
+#     "hitch": 3,
+#     "pneumatic": false,
+#     "power_take_off": false,
+#     "hitch_ground_clearance": 15,
+#     "weight_kg": 200,
+#     "imagePath": "img/image12.png"
+#   },
+#   {
+#   "name": "Herse combiné ferti",
+#   "working_width_m": 3,
+#   "trailed_or_carried": "Carried",
+#   "required_power_kw": null,
+#   "number_of_teeth": null,
+#   "tooth_width_cm": null,
+#   "capacity_l": null,
+#   "hitch": 3,
+#   "pneumatic": null,
+#   "power_take_off": null,
+#   "hitch_ground_clearance": null,
+#   "weight_kg": null,
+#   "imagePath": "img/image13.png"
+# },
+# {
+#   "name": "Semoir Sulky",
+#   "working_width_m": 3.20,
+#   "trailed_or_carried": "Carried",
+#   "required_power_kw": 51.48,
+#   "number_of_teeth": 19,
+#   "tooth_width_cm": null,
+#   "capacity_l": null,
+#   "hitch": 3,
+#   "pneumatic": false,
+#   "power_take_off": false,
+#   "hitch_ground_clearance": 34,
+#   "weight_kg": 450,
+#   "imagePath": "img/image14.png"
+# }]
+
+
+
+###
+PUT http://localhost:3001/equipments/4
+Content-Type: application/json
+
+{
+  "name": "test"
 }
 ###
 POST http://localhost:3001/configurations-ref
@@ -69,4 +287,6 @@ Content-Type: application/json
 }
 
 ###
-DELETE  http://localhost:3001/trajectories/ref/80
+DELETE  http://localhost:3001/equipments/4
+###
+GET http://localhost:3001/equipments

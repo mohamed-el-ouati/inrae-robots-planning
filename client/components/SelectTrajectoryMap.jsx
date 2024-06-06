@@ -78,7 +78,6 @@ const SelectTrajectoryMap = () => {
     const clickedId = features[0]?.properties.id;
     setClickedFeatureId(clickedId);
     setTrajectory({ id: clickedId, name: "traj" + clickedId });
-    console.log(clickedId);
   };
 
   const initialCoordinates = trajectoryGeoJSONs.length

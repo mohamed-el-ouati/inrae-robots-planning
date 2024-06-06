@@ -1,4 +1,5 @@
 "use client";
+
 import RobotForm from "../../RobotForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDuration } from "@/lib/utils/utils";
@@ -27,24 +28,24 @@ const updateRobotPage = async ({ params }: UpdateRobotPageProps) => {
   const defaultValues = {
     name: robot.name,
     description: robot.description,
-    puissance_kwh: robot.puissance_kwh,
+    puissance_kwh: robot.puissance_kwh || 0,
     recharge_time: robot.recharge_time
       ? formatDuration(robot.recharge_time)
       : null,
     operating_time: robot.operating_time
       ? formatDuration(robot.operating_time)
       : null,
-    weight: robot.weight,
-    frontaxle_steeringspeed: robot.frontaxle_steeringspeed,
-    maxangle_steering: robot.maxangle_steering,
+    weight: robot.weight || 0,
+    frontaxle_steeringspeed: robot.frontaxle_steeringspeed || 0,
+    maxangle_steering: robot.maxangle_steering || 0,
     rearaxle_steeringspeed: robot.rearaxle_steeringspeed,
     id_powercat: robot.id_powercat.toString(),
-    availableTill: robot.availableTill,
-    steering_wheel: robot.steering_wheel,
-    driving_wheel: robot.driving_wheel,
-    dim_length: robot.dim_length,
-    dim_width: robot.dim_width,
-    dim_height: robot.dim_height,
+    availableTill: robot.availableTill || "",
+    steering_wheel: robot.steering_wheel || 0,
+    driving_wheel: robot.driving_wheel || 0,
+    dim_length: robot.dim_length || 0,
+    dim_width: robot.dim_width || 0,
+    dim_height: robot.dim_height || 0,
   };
 
   async function onSubmit(values: z.infer<typeof robotSchema>) {

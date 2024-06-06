@@ -22,7 +22,6 @@ async function getRobotById(id: string) {
 
 const page = async ({ params }: RobotPageProps) => {
   const robot = await getRobotById(params.id);
-
   // format robot details for display
   const robotDetails = Object.entries(robot).reduce(
     (acc: { key: string; value: any }[], [key, value]) => {
@@ -39,8 +38,8 @@ const page = async ({ params }: RobotPageProps) => {
     <DetailsCard
       title="Robot Details"
       data={robotDetails}
-      hasAnImage={robot.image_data !== ""}
-      imageUrl={robot.image_data}
+      // hasAnImage={robot.image_data !== ""}
+      image={robot.image_data !== "" ? robot.image_data : null}
       editBtnLink={`/update-robot/${robot.id}`}
       deleteUrl={`http://localhost:3001/robots/${robot.id}`}
     />

@@ -25,3 +25,21 @@ exports.getAllPlots = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getPlotById = async (req, res) => {
+  const query = `
+  SELECT p.id, p.name, p.geom FROM plot p
+  where p.id = $1;`;
+  const { id } = req.params;
+
+  try {
+    const data = await pool.query(query, [id]);
+    if (data.rows.length > 0) {
+      res.status(200).send(data.rows);
+    } else {
+      res.status(404).json({ message: "Plot not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

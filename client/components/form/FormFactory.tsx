@@ -20,6 +20,7 @@ import {
 import { TimePickerDemo } from "../time-picker/time-picker-demo";
 import { Button } from "../ui/button";
 import SelectField from "../SelectField";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 type Option = {
   id: number;
@@ -133,6 +134,39 @@ const FormFactory = ({
             options={options || []}
             label={label}
             placeholder={placeholder}
+          />
+        );
+      case "radio":
+        return (
+          <FormField
+            control={form.control}
+            name={name}
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>{label}</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="true" />
+                      </FormControl>
+                      <FormLabel className="font-normal">Yes</FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value="false" />
+                      </FormControl>
+                      <FormLabel className="font-normal">No</FormLabel>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         );
       default:

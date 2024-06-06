@@ -9,6 +9,7 @@ import Link from "next/link";
 import React from "react";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Separator } from "./ui/separator";
 
 type ListItem = {
   key: string;
@@ -20,15 +21,13 @@ type DetailsCardProps = {
   data: ListItem[];
   editBtnLink: string;
   deleteUrl: string;
-  hasAnImage?: boolean;
-  imageUrl?: string;
+  image: any;
 };
 
 const DetailsCard = ({
   title,
   data,
-  hasAnImage,
-  imageUrl,
+  image,
   editBtnLink,
   deleteUrl,
 }: DetailsCardProps) => {
@@ -39,13 +38,14 @@ const DetailsCard = ({
         const response = await fetch(url, {
           method: "DELETE",
         });
-        router.push("/");
+        router.push("/equipments");
         if (!response.ok) throw new Error("Failed to delete the robot");
       } catch (error) {
         alert("There was an error!");
       }
     }
   };
+
   return (
     <Card className={"w-full lg:w-3/4 xl:w-3/6 "}>
       <CardHeader className="flex flex-row flex-wrap justify-between items-center">
@@ -53,7 +53,8 @@ const DetailsCard = ({
         <div className="flex gap-2">
           <Button variant="outline" asChild>
             <Link href={editBtnLink}>
-              <Pencil className="mr-2 h-4 w-4" /> Edit
+              <Pencil className="mr-2 h-4 w-4" />
+              Edit
             </Link>
           </Button>
           <Button variant="outline" onClick={() => deleteTask(deleteUrl)}>
@@ -62,22 +63,25 @@ const DetailsCard = ({
         </div>
       </CardHeader>
       <CardContent className={"flex items-center flex-col flex-wrap gap-8"}>
-        {hasAnImage && (
+        {image !== null && (
           <Image
-            src={imageUrl || ""}
+            src={image}
             alt="Robot"
             width={500}
             height={500}
             className="w-full aspect-square rounded-md object-cover "
           />
         )}
+
         <ul className="flex w-full flex-col gap-4">
           {data.map((item, index) => (
-            <li key={index} className="flex justify-between">
-              <p className="font-medium leading-none">
-                {formatAndCapitalize(item.key)} :
-              </p>
-              <p className="text-muted-foreground">{item.value} </p>
+            <li key={index} className="flex flex-col gap-2">
+              <div className="flex justify-between">
+                <p className="font-medium leading-none">
+                  {formatAndCapitalize(item.key)} :
+                </p>
+                <p className="text-muted-foreground">{item.value} </p>{" "}
+              </div>
             </li>
           ))}
         </ul>

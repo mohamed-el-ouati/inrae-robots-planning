@@ -58,7 +58,7 @@ const trajectoryPage = ({ params }: TrajectoryPageProps) => {
             <p className="text-muted-foreground">{plotName}</p>
           </li>
         </ul>
-        <TrajectoryMap data={data} styles={mapStyles} />
+        <TrajectoryMap trajectoryData={data} styles={mapStyles} />
       </CardContent>
     </Card>
   );
