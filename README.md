@@ -74,7 +74,7 @@ cd server
 npm install
 ```
 
-3. **Backend Setup:**
+3. **Frontend Setup:**
 
 ```bash
 cd client
@@ -106,7 +106,7 @@ cd server
 npm run dev
 ```
 
-1. **Start the Frontend:** 
+2. **Start the Frontend:** 
 
 ```bash
 cd client
