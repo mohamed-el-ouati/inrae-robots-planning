@@ -5,6 +5,7 @@ router.get("/", trajectoryController.getAllTrajectoriesPoints);
 router.get("/list", trajectoryController.getAllTrajectoriesList);
 router.get("/available", trajectoryController.getAvailableTrajectories);
 router.get("/points/:id", trajectoryController.getTrajectoriesPoints);
+router.get("/points/json/:id", trajectoryController.getTrajectoryJSONById);
 router.get("/:id", trajectoryController.getTrajectoryById);
 
 router.post("/insert-points", trajectoryController.insertTrajectoryPoints);

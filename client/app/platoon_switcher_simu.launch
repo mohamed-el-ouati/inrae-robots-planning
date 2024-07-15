@@ -1,0 +1,129 @@
+<launch>
+  <arg name="follower_model" default="slim"/>
+  <arg name="leader_model" default="fat"/>
+  <!-- <arg name="follower_path" default="simu_vineyard_uturn3.traj"/> -->
+  <!-- <arg name="leader_path" default="simu_vineyard_uturn1.traj"/> -->
+  <arg name="follower_path" default="montoldre_uturn_4_cc.traj"/>
+  <arg name="leader_path" default="montoldre_uturn_3_cc.traj"/>
+  <arg name="gui" default="true"/>
+  <arg name="joy1" default="/dev/input/js0"/>
+  <arg name="joy2" default="/dev/input/js1"/>
+  <arg name="enable_leader" default="true"/>
+  <arg name="enable_follower" default="true"/>
+  <arg name="config_dir" default="$(find tiara_bringup)/config"/>
+
+  <include file="$(find tiara_bringup)/launch/common/pre.launch">
+    <arg name="config_dir" value="$(arg config_dir)"/>
+    <!-- <arg name="world_name" value="worlds/empty.world"/> -->
+    <!-- <arg name="world_name" value="worlds/vineyard_cam2.world"/> -->
+    <arg name="world_name" value="worlds/farm.world"/>
+    <arg name="demo" value="simu"/>
+    <arg name="output" value="log"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <group if="$(arg enable_follower)">
+    <include file="$(find tiara_bringup)/launch/platoon_switcher/follower.launch">
+      <arg name="config_dir" value="$(arg config_dir)"/>
+      <arg name="demo" value="simu"/>
+      <arg name="enable_prefix" value="true"/>
+      <arg name="model" value="$(arg follower_model)"/>
+      <arg name="follower_path" value="$(find tiara_bringup)/config/paths/$(arg follower_path)"/>
+      <arg name="command" value="classic"/>
+      <arg name="sliding_observer" value="cinematic"/>
+      <arg name="prediction_time_horizon" value="1.0"/>
+      <arg name="desired_interdistance" value="-6.0"/>
+      <arg name="desired_maximal_speed" value="2.5"/>
+      <arg name="desired_lateral_deviation" value="0.0"/>
+      <arg name="statechart" value="coop_path"/>
+      <!-- <arg name="robot_initial_pose" default="-x 37.21 -y 20.21 -z -2 -Y -2.07"/> -->
+      <!-- <arg name="robot_initial_pose" default="-x 27.7 -y 9.1 -z -3.0 -Y 3.14"/> -->
+      <!-- <arg name="robot_initial_pose" default="-x 36.03 -y -11.83 -Y -1.062"/> -->
+      <arg name="robot_initial_pose" default="-x -18 -y 18 -Y -0.8"/>
+      <arg name="joy_device" value="$(arg joy1)"/>
+    </include>
+  </group>
+
+  <group if="$(arg enable_leader)">
+    <include file="$(find tiara_bringup)/launch/platoon_switcher/leader.launch">
+      <arg name="config_dir" value="$(arg config_dir)"/>
+      <arg name="demo" value="simu"/>
+      <arg name="enable_prefix" value="true"/>
+      <arg name="model" value="$(arg leader_model)"/>
+      <arg name="follower_path" value="$(find tiara_bringup)/config/paths/$(arg follower_path)"/>
+      <arg name="leader_path" value="$(find tiara_bringup)/config/paths/$(arg leader_path)"/>
+      <arg name="command" value="classic"/>
+      <arg name="sliding_observer" value="cinematic"/>
+      <arg name="prediction_time_horizon" value="1.0"/>
+      <arg name="desired_linear_speed" value="1.6"/>
+      <arg name="desired_lateral_deviation" value="0.0"/>
+      <arg name="statechart" value="coop_path"/>
+      <!-- <arg name="robot_initial_pose" default="-x 40.93 -y 21.96 -z -2 -Y -2.07"/> -->
+      <!-- <arg name="robot_initial_pose" default="-x 31.25 -y 7.34 -z -3.35 -Y 3.14"/> -->
+      <!-- <arg name="robot_initial_pose" default="-x 33.35 -y 8.32 -z -3.35 -Y 3.14"/> -->
+      <!-- <arg name="robot_initial_pose" default="-x 36.38 -y -8.80 -Y -1.058"/> -->
+      <arg name="robot_initial_pose" default="-x -17 -y 20 -Y -0.8"/>
+      <arg name="joy_device" value="$(arg joy2)"/>
+    </include>
+
+    <!-- robot manager node -->
+    <node pkg="romea_platoon" type="uturn_manager" name="uturn_manager" output="screen">
+    </node>
+  </group>
+
+  <node if="$(arg gui)" type="rviz" name="rviz" pkg="rviz" 
+    args="-d $(find tiara_bringup)/viz/platoon_switcher.rviz" />
+
+  <include file="$(find tiara_bringup)/launch/common/post.launch">
+    <arg name="demo" value="simu"/>
+  </include>
+
+  <group if="1">
+    <node pkg="ros2kafka" type="client.py" name="kafka_client" output="log" ns="follower">
+      <param name="id" value="follower"/>
+      <!-- <param name="host" value="10.3.64.166"/> -->
+      <param name="host" value="10.63.64.48"/>
+      <param name="port" value="9092"/>
+      <param name="algoList" value="[localisation]"/>
+
+      <remap from="diagnostics" to="/diagnostics"/>
+      <remap from="~anchor" to="gnss/wgs84_anchor"/>
+    </node>
+
+    <node pkg="ros2kafka" type="client.py" name="kafka_client" output="log" ns="leader">
+      <param name="id" value="leader"/>
+      <!-- <param name="host" value="10.3.64.166"/> -->
+      <param name="host" value="10.63.64.48"/>
+      <param name="port" value="9092"/>
+      <param name="algoList" value="[localisation]"/>
+
+      <remap from="diagnostics" to="/diagnostics"/>
+      <remap from="~anchor" to="gnss/wgs84_anchor"/>
+    </node>
+
+    <node pkg="ros2kafka" type="supervisionToRos.py" name="kafka_consumer" output="screen"
+      >
+      <!-- launch-prefix="terminator -x"> -->
+      <rosparam>
+        host: 10.63.64.48
+        port: 9092
+        topic_kafka: kafka_to_ros
+        topic_published:
+          - /leader/control_fsm/cmd
+          - /leader/path_following/desired_linear_speed 
+          - /leader/path_following/desired_lateral_deviation
+          - /follower/control_fsm/cmd
+          - /follower/path_following/desired_interdistance
+          - /follower/path_following/desired_linear_speed 
+          - /follower/path_following/desired_lateral_deviation
+        ros_joy_topic:
+          - /leader/joy
+          - /follower/joy
+      </rosparam>
+    </node>
+  </group>
+
+  <!-- automatically start robots at the begining -->
+  <node if="1" pkg="tiara_bringup" type="start_robots" name="autostart_robots"/>
+</launch>
+

@@ -9,6 +9,8 @@ app.use(express.json());
 app.use("/robots", require("./routes/robotRoute"));
 app.use("/tasks", require("./routes/taskRoute"));
 app.use("/activities", require("./routes/activityRoute"));
+app.use("/activity-categories", require("./routes/activityCategoryRoute"));
+
 app.use("/equipments", require("./routes/equipmentRoute"));
 app.use("/plots", require("./routes/plotRoute"));
 app.use("/trajectories", require("./routes/trajectoryRoute"));

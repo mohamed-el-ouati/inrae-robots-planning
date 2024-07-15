@@ -18,52 +18,63 @@ const addTaskPage = () => {
   const tasks = useTaskStore((s) => s.tasks);
   const deleteAllTasks = useTaskStore((s) => s.deleteAllTasks);
 
+  console.log(tasks);
   const router = useRouter();
   const { toast } = useToast();
 
   const [itkName, setItkName] = useState("");
 
   const HandleTaskInsertion = async (task: any, itkId: number) => {
-    // Insert data into the configurations table
-    const configurationResponse = await fetch(`${baseUrl}/configurations`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        robot_id: parseInt(task.robot_id),
-        activity_id: parseInt(task.activity_id),
-        equipment_id: parseInt(task.equipment_id),
-        start_date: task.start_date,
-        end_date: task.end_date,
-        itk_id: itkId,
-      }),
-    });
+    try {
+      // Insert data into the configurations table
+      const configurationResponse = await fetch(`${baseUrl}/configurations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          robot_id: parseInt(task.robot_id),
+          activity_id: parseInt(task.activity_id),
+          equipment_id: parseInt(task.equipment_id),
+          start_date: task.start_date,
+          end_date: task.end_date,
+          itk_id: itkId,
+        }),
+      });
 
-    if (!configurationResponse.ok) {
-      console.error("Failed to insert configuration");
-      return;
-    }
+      if (!configurationResponse.ok) {
+        throw new Error(
+          `Failed to insert configuration: ${await configurationResponse.text()}`
+        ); // Get error message from response
+      }
 
-    const configurationData = await configurationResponse.json();
-    const configurationId = configurationData.id;
+      const configurationData = await configurationResponse.json();
+      const configurationId = configurationData.id;
 
-    // Insert data into the configurations-ref table
-    const trajectoryResponse = await fetch(`${baseUrl}/configurations-ref`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        configuration_id: configurationId,
-        trajectory_ref_id: parseInt(task.trajectory_id),
-      }),
-    });
+      // Insert data into the configurations-ref table
+      const trajectoryResponse = await fetch(`${baseUrl}/configurations-ref`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          configuration_id: configurationId,
+          trajectory_ref_id: parseInt(task.trajectory_id),
+        }),
+      });
 
-    // Check if trajectory insertion was successful
-    if (!trajectoryResponse.ok) {
-      console.error("Failed to insert trajectory");
-      return;
+      // Check if trajectory insertion was successful
+      if (!trajectoryResponse.ok) {
+        throw new Error(
+          `Failed to insert trajectory: ${await trajectoryResponse.text()}`
+        ); // Get error message from response
+      }
+
+      console.log(
+        `Successfully inserted task with configuration ID ${configurationData.id}`
+      );
+    } catch (error) {
+      console.error("Error inserting task:", error);
     }
   };
 
@@ -91,11 +102,9 @@ const addTaskPage = () => {
       }
 
       const itkData = await itkResponse.json();
-      const itkId = itkData.id;
-
-      tasks.map((task) => {
-        HandleTaskInsertion(task, itkId);
-      });
+      await Promise.all(
+        tasks.map((task) => HandleTaskInsertion(task, itkData.id))
+      );
       toast({
         title: "ITK created successfully!",
       });

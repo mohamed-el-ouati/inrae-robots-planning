@@ -14,35 +14,12 @@ exports.getAvailableEquipments = async (req, res) => {
   try {
     const { start, end } = req.query;
     const query = `
-     SELECT ts.id, ts.name
-      FROM tool_sprayer ts
+     SELECT  e.id, e.name, e.working_width_m, e.required_power_kw, e.weight_kg, e.image
+      FROM equipment e
       WHERE NOT EXISTS (
          SELECT 1
          FROM configuration c
-         WHERE c.equipment_id = ts.id
-         AND (
-               (c.start_date <= $2 AND c.end_date >= $1)
-               OR (c.start_date >= $1 AND c.end_date <= $2)
-               OR (c.start_date <= $1 AND c.end_date >= $2)
-         )
-     );`;
-    const data = await pool.query(query, [start, end]);
-    res.status(200).send(data.rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.getAllEquipments = async (req, res) => {
-  try {
-    const { start, end } = req.query;
-    const query = `
-     SELECT ts.id, ts.name
-      FROM tool_sprayer ts
-      WHERE NOT EXISTS (
-         SELECT 1
-         FROM configuration c
-         WHERE c.equipment_id = ts.id
+         WHERE c.equipment_id = e.id
          AND (
                (c.start_date <= $2 AND c.end_date >= $1)
                OR (c.start_date >= $1 AND c.end_date <= $2)

@@ -68,3 +68,54 @@ exports.getConfigurationById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.deleteConfigurationById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      `DELETE FROM configuration WHERE id = $1 RETURNING id`,
+      [id]
+    );
+
+    if (result.rows.length > 0) {
+      res.status(200).send({ message: "Successfully deleted configuration" });
+    } else {
+      res.status(404).json({ message: "Configuration not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deleteConfigurationByItkId = async (req, res) => {
+  const { itk_id } = req.params;
+  try {
+    const result = await pool.query(
+      `DELETE FROM configuration WHERE itk_id = $1 RETURNING id`,
+      [itk_id]
+    );
+
+    if (result.rows.length > 0) {
+      res.status(200).send({ message: "Successfully deleted configurations" });
+    } else {
+      res.status(404).json({ message: "Configurations not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getTasksByItkId = async (req, res) => {
+  const { itk_id } = req.params;
+  const sqlQuery = `SELECT c.id AS configuration_id FROM configuration c WHERE c.itk_id = $1`;
+  try {
+    const data = await pool.query(sqlQuery, [itk_id]);
+    if (data.rows.length > 0) {
+      res.status(200).send(data.rows);
+    } else {
+      res.status(404).json({ message: "No tasks found for this ITK ID" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

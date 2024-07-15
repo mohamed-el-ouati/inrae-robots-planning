@@ -37,3 +37,24 @@ exports.deleteConfigurationRef = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.deleteConfigurationRefByConfigurationId = async (req, res) => {
+  const { configuration_id } = req.params;
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM configuration_ref WHERE configuration_id = $1",
+      [configuration_id]
+    );
+
+    if (result.rowCount > 0) {
+      res
+        .status(200)
+        .send({ message: "Configuration refs deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Configuration refs not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

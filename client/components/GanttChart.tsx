@@ -11,7 +11,7 @@ const GanttChart = ({ data }: GanttChartProps) => {
     start: new Date(event.start_date),
     end: new Date(event.end_date),
     name: event.activity_name,
-    id: "Task 0",
+    id: event.configuration_ref_id,
     type: "task",
     progress: 0,
     styles: { backgroundColor: getRandomColor() },

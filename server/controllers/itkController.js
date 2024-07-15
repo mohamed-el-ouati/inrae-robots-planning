@@ -79,3 +79,66 @@ exports.getItkTasksById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.deleteItkById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      `DELETE FROM itk WHERE id = $1 RETURNING id`,
+      [id]
+    );
+
+    if (result.rows.length > 0) {
+      res.status(200).send({ message: "Successfully deleted ITK" });
+    } else {
+      res.status(404).json({ message: "ITK not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getItkTasksById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const sqlQuery = `
+  SELECT
+    r.name AS robot_name,
+    a.name AS activity_name,
+    p.name AS plot_name,
+    tr.name AS trajectory_name,
+    eq.name AS equipment_name,
+    
+    c.start_date,
+    c.end_date,
+    cr.id AS configuration_ref_id,
+    i.name AS itk_name,
+	  i.id
+  FROM
+    configuration c
+  LEFT JOIN
+    robot r ON c.robot_id = r.id
+  LEFT JOIN
+    activity a ON c.activity_id = a.id
+  JOIN
+    itk i ON c.itk_id = i.id
+  LEFT JOIN
+    configuration_ref cr ON cr.configuration_id = c.id
+  LEFT JOIN
+    trajectory_ref tr ON cr.trajectory_ref_id = tr.id
+  LEFT JOIN
+    tool_sprayer eq ON c.equipment_id = eq.id
+  LEFT JOIN
+    plot p ON tr.plot_id = p.id
+  WHERE
+    i.id = $1`;
+    const data = await pool.query(sqlQuery, [id]);
+    if (data.rows.length > 0) {
+      res.status(200).send(data.rows);
+    } else {
+      res.status(404).json({ message: "ITK not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

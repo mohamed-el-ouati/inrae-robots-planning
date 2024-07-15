@@ -1,6 +1,7 @@
 const pool = require("../services/db");
 const fs = require("fs");
 const proj4 = require("proj4");
+const wkx = require("wkx");
 
 exports.getAvailableTrajectories = async (req, res) => {
   try {
@@ -142,7 +143,7 @@ exports.insertTrajectoryPoints = async (req, res) => {
 
     let ordId = 1;
     for (const [lon, lat, speed] of geoPoints) {
-      const storageTimestamp = new Date(2022, 11, 22); // Month starts from 0 (December = 11)
+      const storageTimestamp = new Date(2022, 11, 22);
 
       const values = [
         id,
@@ -183,21 +184,58 @@ exports.deleteTrajectoryRef = async (req, res) => {
 };
 
 exports.deleteTrajectoryPoints = async (req, res) => {
+  try {
+    const data = await fetchData();
+    const result = convertToJSON(data);
+    console.log(JSON.stringify(result, null, 2));
+  } catch (err) {
+    console.error("Error processing data", err);
+  }
+};
+
+//////////////\\\\\\\\\\\\\\
+exports.getTrajectoryJSONById = async (req, res) => {
+  const query = `SELECT pt.id, pt.point, pt.ord_id, pt.speed
+  FROM public.point_timeref pt
+  LEFT JOIN trajectory_ref tr ON tr.id = pt.id
+  where tr.id = $1
+  ORDER BY pt.id ASC, pt.ord_id ASC`;
+
   const { id } = req.params;
 
   try {
-    const result = await pool.query("DELETE FROM point_timeref WHERE id = $1", [
-      id,
-    ]);
+    const data = await pool.query(query, [id]);
 
-    if (result.rowCount > 0) {
-      res
-        .status(200)
-        .send({ message: "Trajectory Points deleted successfully" });
+    if (data.rows.length > 0) {
+      // Convert data to the desired JSON structure
+      const points = data.rows.map((row) => {
+        const geom = wkx.Geometry.parse(Buffer.from(row.point, "hex"));
+        const coordinates = geom.toGeoJSON().coordinates;
+        return [coordinates[0], coordinates[1], row.speed];
+      });
+
+      const responseJson = {
+        version: "2",
+        origin: {
+          type: "WGS84",
+          coordinates: [
+            points[0][0],
+            points[0][1],
+            points[0][2], // Assuming the first point has an altitude or ordinal for origin
+          ],
+        },
+        points: {
+          columns: ["x", "y", "speed"],
+          values: points,
+        },
+      };
+
+      res.status(200).json(responseJson);
     } else {
-      res.status(404).json({ message: "Trajectory Points not found" });
+      res.status(404).json({ message: "Trajectory not found" });
     }
   } catch (error) {
+    console.error("Error processing data", error);
     res.status(500).json({ error: error.message });
   }
 };

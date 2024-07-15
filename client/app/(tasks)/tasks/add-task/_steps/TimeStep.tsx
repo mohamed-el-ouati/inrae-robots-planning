@@ -17,12 +17,26 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { TimePickerDemo } from "../../../../../components/time-picker/time-picker-demo";
+import { useState } from "react";
 
 type TimeStepProps = {
   form: any;
 };
 
 const TimeStep = ({ form }: TimeStepProps) => {
+  const [error, setError] = useState<string | null>(null);
+
+  const validateDates = () => {
+    const startDate = form.getValues("start_date");
+    const endDate = form.getValues("end_date");
+    if (endDate && startDate && endDate <= startDate) {
+      setError("End date must be later than start date");
+      return false;
+    }
+    setError(null);
+    return true;
+  };
+
   return (
     <div className="max-w-[400px] w-full flex flex-col gap-4">
       <h2 className="text-2xl font-semibold">Time</h2>

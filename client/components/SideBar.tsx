@@ -24,8 +24,9 @@ import {
 
 const SideBar = () => {
   const generalItems = [
-    { label: "Dashboard", href: "/", icon: LayoutDashboard },
+    // { label: "Dashboard", href: "/", icon: LayoutDashboard },
     { label: "Calendar", href: "/calendar", icon: Calendar },
+    { label: "Activities", href: "/activities", icon: Tractor },
   ];
   const itkItems = [
     { label: "ITK Planning", href: "/add-itk", icon: CalendarPlus },
@@ -71,7 +72,7 @@ const SideBar = () => {
             </CollapsibleContent>
           </Collapsible> */}
 
-          <h3 className="mx-3 font-semibold text-slate-900 my-2">General</h3>
+          {/* <h3 className="mx-3 font-semibold text-slate-900 my-2">General</h3> */}
           {generalItems.map((item, index) => (
             <Link key={index} href={item.href}>
               <SidebarButton

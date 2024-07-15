@@ -63,3 +63,9 @@ export type Task = {
   trajectory_id: string;
   itk_id: number;
 };
+
+export type Activity = {
+  id: number;
+  name: string;
+  category: string;
+};
