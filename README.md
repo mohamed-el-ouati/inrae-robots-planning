@@ -37,8 +37,6 @@ This web application allows users to plan and manage tasks for autonomous agricu
 │   │   ├── (tasks)      #  Components/pages  related to Tasks management
 │   │   ├── (trajectory)  # Trajectory visualization components/pages  related to Trajectories
 │   │   ├── calendar     # Calendar view components/pages
-│   │   ├── components     # Reusable UI components (shared across app)
-│   │   ├── lib           # Helper functions/utilities (shared across app)
 │   │   ├── favicon.ico   # Favicon for the web application
 │   │   ├── globals.css   # Global styles for the application
 │   │   ├── layout.tsx    # Root layout component for the application
