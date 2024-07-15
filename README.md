@@ -24,7 +24,6 @@ This web application allows users to plan and manage tasks for autonomous agricu
 **Database:** PostgreSQL
  
 
-
 ##  Project Structure
 
 ```
@@ -61,7 +60,7 @@ This web application allows users to plan and manage tasks for autonomous agricu
 └── docker-compose.yml # Defines and configures Docker services for the project        
 ```
 
-## Installation
+## Installation & Setup
 
 1. **Clone the Repository:** 
 
@@ -77,8 +76,6 @@ cd server
 npm install
 ```
 
-Create .env file and add the database configuration and any other necessary environment variables.
-
 3. **Backend Setup:**
 
 ```bash
@@ -86,7 +83,6 @@ cd client
 npm install
 ```
 
-Create .env file and add necessary environment variables.
 ## Environment Variables
 
 **Backend (.env in server)**
