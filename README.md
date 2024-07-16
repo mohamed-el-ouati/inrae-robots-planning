@@ -78,7 +78,7 @@ Create a .env file in both the client and server directories, and fill in the va
 
 **Frontend (.env in client)**
 
-    NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+    NEXT_PUBLIC_API_BASE_URL=http://api:3001
     NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=
 
 ## Running the Application
