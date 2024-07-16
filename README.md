@@ -118,4 +118,6 @@ The application should now be accessible at http://localhost:3000.
 - The environment variables need to be set correctly in the `.env` files before running the application.
 - **Stopping the Application:** Use ``` docker-compose down ``` to stop and remove the containers.
 
+## Database Relational Schema
 
+![alt text](database-schema.png)
