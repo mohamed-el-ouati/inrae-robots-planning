@@ -28,60 +28,47 @@ This web application allows users to plan and manage tasks for autonomous agricu
 
 ```
 ├── client  # Next.js frontend
-│   ├── app             # App Router directory
+│   ├── app               # App Router directory
 │   │   ├── (activity)    # Components/pages related to Activity
-│   │   ├── (equipment)   # Equipment-related components/pages related to
-│   │   ├── (itk)        # Components/pages related to ITK 
-│   │   ├── (plot)       # Plot-related components/pages related to
-│   │   ├── (robots)     # Robots-related components/pages related to
-│   │   ├── (tasks)      #  Components/pages  related to Tasks management
-│   │   ├── (trajectory)  # Trajectory visualization components/pages  related to Trajectories
-│   │   ├── calendar     # Calendar view components/pages
+│   │   ├── (equipment)   # Components/pages related to Equipment
+│   │   ├── (itk)         # Components/pages related to ITK 
+│   │   ├── (plot)        # Components/pages related to Plot
+│   │   ├── (robots)      # Components/pages related to Robots
+│   │   ├── (tasks)       # Components/pages related to Tasks management
+│   │   ├── (trajectory)  # Components/pages  related to Trajectories
+│   │   ├── calendar      # Calendar view components/pages
 │   │   ├── favicon.ico   # Favicon for the web application
 │   │   ├── globals.css   # Global styles for the application
 │   │   ├── layout.tsx    # Root layout component for the application
-│   │   └── page.tsx     # Main page component for the application
-│   ├── components     # Reusable UI components (Pages Router)
-│   ├── lib           # Helper functions/utilities
-│   ├── public        # Static assets (images, etc.)
-│   ├── Dockerfile  # Docker configuration
-│   └── ... # Other project files (e.g., .gitignore, package-lock.json) 
-├── server        # Node.js backend
-│   ├── controllers   # API endpoint logic (request handling)
-│   ├── routes       # API routing definitions
+│   │   └── page.tsx      # Main page component for the application
+│   ├── components        # Reusable UI components (Pages Router)
+│   ├── lib               # Helper functions/utilities
+│   ├── public            # Static assets (images, etc.)
+│   ├── Dockerfile        # Docker configuration
+│   └── ...               # Other project files (e.g., .gitignore, package-lock.json) 
+├── server                # Node.js backend
+│   ├── controllers       # API endpoint logic (request handling)
+│   ├── routes            # API routing definitions
 │   ├── services    
-│   │   └── db.js        # Database configuration
-│   ├── utils        # Utility functions (helpers)
-│   ├── Dockerfile      # Docker configuration 
-│   ├── server.js        # Main server entry point
-│   └── ...          # Additional files (e.g., .gitignore, package-lock.json) 
-└── docker-compose.yml # Defines and configures Docker services for the project        
+│   │   └── db.js         # Database configuration
+│   ├── utils             # Utility functions (helpers)
+│   ├── Dockerfile        # Docker configuration 
+│   ├── server.js         # Main server entry point
+│   └── ...               # Additional files (e.g., .gitignore, package-lock.json) 
+└── docker-compose.yml    # Defines and configures Docker services for the project        
 ```
 
 ## Installation & Setup
 
-1. **Clone the Repository:** 
+**1. Clone the Repository:** 
 
 ```bash
 git clone https://github.com/your/repository.git
 cd repository
 ```
 
-2. **Backend Setup:**
-
-```bash
-cd server
-npm install
-```
-
-3. **Frontend Setup:**
-
-```bash
-cd client
-npm install
-```
-
-## Environment Variables
+**2. Setup Environment Variables:** 
+Create a .env file in both the client and server directories, and fill in the values according to your environment.
 
 **Backend (.env in server)**
 
@@ -96,20 +83,31 @@ npm install
     NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
     NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoibWVkLWVsb3VhdGkiLCJhIjoiY2x2MmJ4N29kMGhqYTJrcWdxcGZlbzlpYyJ9.lVWA68ii73zucSENv3ETRA
 
-**Important:** Create a .env file in both the client and server directories, and fill in the values according to your environment.
 ## Running the Application
+### Using Docker
 
-1. **Start the Backend:** 
+**1. Build and Start the Services:** 
+
+```bash
+docker-compose up --build
+```
+
+The application should now be accessible at http://localhost:3000.
+
+### Without Docker
+ **1. Backend Setup:** 
 
 ```bash
 cd server
+npm install
 npm run dev
 ```
 
-2. **Start the Frontend:** 
+ **2. Frontend Setup:** 
 
 ```bash
 cd client
+npm install
 npm run dev
 ```
 
