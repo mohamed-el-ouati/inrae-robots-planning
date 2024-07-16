@@ -63,8 +63,8 @@ This web application allows users to plan and manage tasks for autonomous agricu
 **1. Clone the Repository:** 
 
 ```bash
-git clone https://github.com/your/repository.git
-cd repository
+git clone https://github.com/ayoubhatmi/inrae-robots-planning.git
+cd inrae-robots-planning
 ```
 
 **2. Setup Environment Variables:** 
@@ -73,16 +73,16 @@ Create a .env file in both the client and server directories, and fill in the va
 
 **Backend (.env in server)**
 
-    PG_HOST=10.63.64.48
-    PG_PORT=5432
-    PG_USER=pgadmin4
-    PG_PASSWORD=romea63*
-    PG_DATABASE=superRob2
+    PG_HOST=
+    PG_PORT=
+    PG_USER=
+    PG_PASSWORD=
+    PG_DATABASE=
 
 **Frontend (.env in client)**
 
     NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
-    NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoibWVkLWVsb3VhdGkiLCJhIjoiY2x2MmJ4N29kMGhqYTJrcWdxcGZlbzlpYyJ9.lVWA68ii73zucSENv3ETRA
+    NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=
 
 ## Running the Application
 ### Using Docker
