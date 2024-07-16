@@ -27,7 +27,7 @@ This web application allows users to plan and manage tasks for autonomous agricu
 ##  Project Structure
 
 ```
-├── client  # Next.js frontend
+├── client                   # Next.js frontend
 │   ├── app                  # App Router directory
 │   │   ├── (activity)       # Components/pages related to Activity
 │   │   ├── (equipment)      # Components/pages related to Equipment
