@@ -112,3 +112,10 @@ npm run dev
 ```
 
 The application should now be accessible at http://localhost:3000.
+
+## Additional Notes
+- Ensure Docker and Docker Compose are installed on your machine.
+- The environment variables need to be set correctly in the `.env` files before running the application.
+- **Stopping the Application:** Use ``` docker-compose down ``` to stop and remove the containers.
+
+
