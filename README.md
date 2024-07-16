@@ -1,8 +1,7 @@
-
 # Web application for robots task planning
 
-
 This web application allows users to plan and manage tasks for autonomous agricultural robots. Additionally, it supports CRUD operations (Create, Read, Update, Delete) for robots, equipment, and activities. It also handles geodata, including plots and robot paths. The goal is to enhance robot performance in agriculture, reduce human labor, and optimize resources usage.
+
 ## Features
 
 - Task planning for robots
@@ -14,7 +13,6 @@ This web application allows users to plan and manage tasks for autonomous agricu
 - Trajectories management
 - Agricultural activities management
 
-
 ## Tech Stack
 
 **Client:** Nextjs (React), Zustand (state management), Mapbox, TailwindCSS and Shadcn/ui (UI component library)
@@ -23,7 +21,6 @@ This web application allows users to plan and manage tasks for autonomous agricu
 
 **Database:** PostgreSQL
  
-
 ##  Project Structure
 
 ```
