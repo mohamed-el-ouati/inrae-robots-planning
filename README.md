@@ -2,7 +2,7 @@
 # Web application for robots task planning
 
 
-This web application allows users to plan and manage tasks for autonomous agricultural robots. Additionally, it supports CRUD operations (Create, Read, Update, Delete) for robots, equipment, and activities. It also handles geodata, including plots and robot paths. The goal is to enhance robot performance in agriculture, reduce human labor, and optimize resource usage.
+This web application allows users to plan and manage tasks for autonomous agricultural robots. Additionally, it supports CRUD operations (Create, Read, Update, Delete) for robots, equipment, and activities. It also handles geodata, including plots and robot paths. The goal is to enhance robot performance in agriculture, reduce human labor, and optimize resources usage.
 ## Features
 
 - Task planning for robots
