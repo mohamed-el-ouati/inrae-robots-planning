@@ -7,9 +7,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
-import { Separator } from "./ui/separator";
 
 type ListItem = {
   key: string;
@@ -32,17 +30,22 @@ const DetailsCard = ({
   deleteUrl,
 }: DetailsCardProps) => {
   const router = useRouter();
-  const deleteTask = async (url: string) => {
+  const deleteTask = (url: string) => {
     if (confirm(`Are you sure to delete this item?`)) {
-      try {
-        const response = await fetch(url, {
-          method: "DELETE",
+      fetch(url, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete the robot");
+          }
+          // Redirect after successful deletion
+          router.push("/equipments");
+        })
+        .catch((error) => {
+          alert("There was an error!");
+          console.error("Error deleting task:", error);
         });
-        router.push("/equipments");
-        if (!response.ok) throw new Error("Failed to delete the robot");
-      } catch (error) {
-        alert("There was an error!");
-      }
     }
   };
 

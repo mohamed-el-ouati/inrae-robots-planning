@@ -17,7 +17,7 @@ const RobotForm = ({ onSubmit, defaultValues }: RobotFormProps) => {
     data: powerCategories,
     error: powerCategoriesError,
     isLoading: isPowerCategoriesLoading,
-  } = useSWR(`${baseUrl}/robots-power-categories`, fetcher);
+  } = useSWR(`/api/robots-power-categories`, fetcher);
 
   if (isPowerCategoriesLoading) return <div>Loading...</div>;
   if (powerCategoriesError) return <div>Error loading data!</div>;

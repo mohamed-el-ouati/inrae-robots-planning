@@ -34,13 +34,11 @@ const ActivityStep = ({ form, name }: SelectFormStepProps) => {
 
   // Fetching categories and activities data
   const { data: categories, error: categoriesError } = useSWR(
-    `${baseUrl}/activity-categories`,
+    `/api/activity-categories`,
     fetcher
   );
   const { data: activities, error: activitiesError } = useSWR(
-    selectedCategory
-      ? `${baseUrl}/activities/category/${selectedCategory}`
-      : null,
+    selectedCategory ? `/api/activities/category/${selectedCategory}` : null,
     fetcher
   );
 

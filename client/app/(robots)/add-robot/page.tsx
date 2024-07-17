@@ -20,7 +20,7 @@ const AddRobot = () => {
     };
 
     try {
-      const response = await fetch(`${baseUrl}/robots`, {
+      const response = await fetch(`/api/robots`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

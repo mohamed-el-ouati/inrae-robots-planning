@@ -25,7 +25,6 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const ActivityForm = () => {
   const router = useRouter();
@@ -33,7 +32,7 @@ const ActivityForm = () => {
     data: categories,
     error,
     isLoading,
-  } = useSWR(`${baseUrl}/activity-categories`, fetcher);
+  } = useSWR(`/api/activity-categories`, fetcher);
   const { toast } = useToast();
   const form = useForm<z.infer<typeof activitySchema>>({
     resolver: zodResolver(activitySchema),
@@ -52,7 +51,7 @@ const ActivityForm = () => {
     };
 
     try {
-      const response = await fetch(`${baseUrl}/activities`, {
+      const response = await fetch(`api/activities`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

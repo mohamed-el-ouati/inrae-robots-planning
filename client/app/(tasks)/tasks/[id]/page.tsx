@@ -1,25 +1,18 @@
+"use client";
+
 import DetailsCard from "@/components/DetailsCard";
 import {
   convertOjectToKeyValueArray,
   formatDateString,
 } from "@/lib/utils/utils";
+import useSWR from "swr";
+import { fetcher } from "@/lib/fetcher";
 
 type TaskPageProps = {
   params: {
     id: string;
   };
 };
-
-async function getTaskById(id: string) {
-  const res = await fetch(`http://localhost:3001/tasks/${id}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
 
 const transformDataToTask = (data: any): any => {
   return {
@@ -34,8 +27,15 @@ const transformDataToTask = (data: any): any => {
   };
 };
 
-const TaskPage: React.FC<TaskPageProps> = async ({ params }) => {
-  const task = transformDataToTask(await getTaskById(params.id));
+const TaskPage: React.FC<TaskPageProps> = ({ params }) => {
+  const url = `/api/tasks/${params.id}`;
+
+  const { data, error, isLoading } = useSWR(url, fetcher);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data!</div>;
+
+  const task = transformDataToTask(data);
 
   return (
     <DetailsCard
@@ -43,7 +43,7 @@ const TaskPage: React.FC<TaskPageProps> = async ({ params }) => {
       data={convertOjectToKeyValueArray(task)}
       image={null}
       editBtnLink={`/`}
-      deleteUrl={`http://localhost:3001/configurations-ref/${params.id}`}
+      deleteUrl={`/api/configurations-ref/${params.id}`}
     />
   );
 };

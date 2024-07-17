@@ -25,9 +25,7 @@ const CellActions = ({ itk }: { itk: any }) => {
     if (confirm(`Are you sure to delete this ITK?`)) {
       try {
         // Step 1: Fetch all related tasks to this ITK
-        const tasksResponse = await fetch(
-          `${baseUrl}/configurations/itk/${ItkId}`
-        );
+        const tasksResponse = await fetch(`/api/configurations/itk/${ItkId}`);
 
         const tasks = await tasksResponse.json();
 
@@ -37,17 +35,17 @@ const CellActions = ({ itk }: { itk: any }) => {
           const taskId = task.configuration_id;
 
           // Delete the ref between traj and config from configuration_ref table
-          await fetch(`${baseUrl}/configurations-ref/configuration/${taskId}`, {
+          await fetch(`/api/configurations-ref/configuration/${taskId}`, {
             method: "DELETE",
           });
           // Delete the task itself (config)
-          await fetch(`${baseUrl}/configurations/itk/${ItkId}`, {
+          await fetch(`/api/configurations/itk/${ItkId}`, {
             method: "DELETE",
           });
         }
 
         // Step 3: Delete the ITK
-        await fetch(`${baseUrl}/itks/${ItkId}`, {
+        await fetch(`/api/itks/${ItkId}`, {
           method: "DELETE",
         });
 

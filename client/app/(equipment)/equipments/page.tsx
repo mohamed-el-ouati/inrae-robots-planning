@@ -6,24 +6,21 @@ import React, { Suspense } from "react";
 import { columns } from "./columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+import useSWR from "swr";
+import { fetcher } from "@/lib/fetcher";
 
-async function getEquipments() {
-  const res = await fetch(`${baseUrl}/equipments`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+const equipmentsPage = () => {
+  const {
+    data: equipments,
+    error,
+    isLoading,
+  } = useSWR(`/api/equipments`, fetcher);
 
-  return res.json();
-}
-
-const equipmentsPage = async () => {
-  const equipments = await getEquipments();
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data!</div>;
 
   equipments.forEach((equipment: any) => {
-    if (equipment.image) {
+    if (equipment.image && equipment.image.data) {
       equipment.image = convertImageDataToBase64(equipment.image.data);
     }
   });

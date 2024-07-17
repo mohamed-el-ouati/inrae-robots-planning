@@ -14,7 +14,7 @@ type UpdateRobotPageProps = {
 };
 
 async function getRobotById(id: string) {
-  const res = await fetch(`${baseUrl}/robots/${id}`, {
+  const res = await fetch(`/api/robots/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -50,7 +50,7 @@ const updateRobotPage = async ({ params }: UpdateRobotPageProps) => {
 
   async function onSubmit(values: z.infer<typeof robotSchema>) {
     try {
-      const response = await fetch(`${baseUrl}/robots/${params.id}`, {
+      const response = await fetch(`/api/robots/${params.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

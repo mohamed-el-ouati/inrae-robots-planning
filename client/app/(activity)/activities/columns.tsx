@@ -1,6 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
-import placeholderImg from "../../../public/images/placeholder.png";
 import { Activity } from "../../../lib/types/index";
 import CellActions from "./CellActions"; // Adjust the import path accordingly
 

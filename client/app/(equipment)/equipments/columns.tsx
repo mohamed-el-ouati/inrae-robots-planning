@@ -14,7 +14,6 @@ import {
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { Equipment } from "../../../lib/types/index";
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const columns: ColumnDef<Equipment>[] = [
   {
@@ -92,7 +91,7 @@ export const columns: ColumnDef<Equipment>[] = [
       const deleteEquipment = async (id: number) => {
         if (confirm(`Are you sure to delete this equipment?`)) {
           try {
-            const response = await fetch(`${baseUrl}/equipments/${id}`, {
+            const response = await fetch(`/api/equipments/${id}`, {
               method: "DELETE",
             });
             if (!response.ok) throw new Error("Failed to delete the Equipment");

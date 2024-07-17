@@ -20,11 +20,7 @@ export default async function upload(data) {
 
   // With the file data in the buffer, you can do whatever you want with it.
   // For this, we'll just write it to the filesystem in a new location
-  const filePath = join(
-    "/",
-    "Users/ayhatmi/Desktop/crud-nodejs-postgresql-nextjs/files/",
-    file.name
-  );
+  const filePath = join("/", "files/", file.name);
   await writeFile(filePath, buffer);
 
   const name = data.get("name");

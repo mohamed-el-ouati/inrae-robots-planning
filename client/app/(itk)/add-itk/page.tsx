@@ -27,7 +27,7 @@ const addTaskPage = () => {
   const HandleTaskInsertion = async (task: any, itkId: number) => {
     try {
       // Insert data into the configurations table
-      const configurationResponse = await fetch(`${baseUrl}/configurations`, {
+      const configurationResponse = await fetch(`/api/configurations`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const addTaskPage = () => {
       const configurationId = configurationData.id;
 
       // Insert data into the configurations-ref table
-      const trajectoryResponse = await fetch(`${baseUrl}/configurations-ref`, {
+      const trajectoryResponse = await fetch(`/api/configurations-ref`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +86,7 @@ const addTaskPage = () => {
       });
     } else {
       // Insert data into ITK table
-      const itkResponse = await fetch(`${baseUrl}/itks`, {
+      const itkResponse = await fetch(`/api/itks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

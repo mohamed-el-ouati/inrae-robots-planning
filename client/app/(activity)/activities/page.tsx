@@ -5,22 +5,18 @@ import React, { Suspense } from "react";
 import { columns } from "./columns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { fetcher } from "@/lib/fetcher";
+import useSWR from "swr";
 
-async function getActivities() {
-  const res = await fetch(`${baseUrl}/activities/infos`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+const activitiesPage = () => {
+  const {
+    data: activities,
+    error,
+    isLoading,
+  } = useSWR(`api/activities/infos`, fetcher);
 
-  return res.json();
-}
-
-const activitiesPage = async () => {
-  const activities = await getActivities();
-
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data!</div>;
   return (
     <div className="w-full">
       <div className="flex pb-4 justify-between gap-4">

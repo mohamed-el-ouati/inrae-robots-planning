@@ -69,7 +69,7 @@ export const columns: ColumnDef<RobotEssentials>[] = [
       const DeleteRobot = async (id: number, name: string) => {
         if (confirm(`Are you sure you want to delete robot ${name}?`)) {
           try {
-            const response = await fetch(`${baseUrl}/robots/${id}`, {
+            const response = await fetch(`/api/robots/${id}`, {
               method: "DELETE",
             });
             if (!response.ok) throw new Error("Failed to delete the robot");

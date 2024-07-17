@@ -21,7 +21,7 @@ const CellActions = ({ activity }: { activity: Activity }) => {
   const deleteActivity = async (id: number) => {
     if (confirm(`Are you sure to delete this activity?`)) {
       try {
-        const response = await fetch(`${baseUrl}/activities/${id}`, {
+        const response = await fetch(`/api/activities/${id}`, {
           method: "DELETE",
         });
         if (!response.ok) throw new Error("Failed to delete the Activity");

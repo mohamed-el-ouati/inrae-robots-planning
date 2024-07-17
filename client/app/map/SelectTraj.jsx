@@ -17,7 +17,7 @@ const SelectTraj = () => {
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const url = `${baseUrl}/trajectories/`;
+  const url = `/api/trajectories/`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
   const convertWKBToCoordinates = (wkbString) => {

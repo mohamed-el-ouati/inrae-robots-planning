@@ -1,21 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import TrajectoryMap from "../../../components/SelectTrajectoryMap";
 import Link from "next/link";
 import { useState } from "react";
 import ListView from "./ListView";
 import MapView from "./MapView";
-const trajectoriesPage = () => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const [view, setView] = useState("map");
 
-  const url = `${baseUrl}/trajectories/`;
-  const mapStyles = {
-    height: "80vh",
-    maxHeight: 700,
-    borderRadius: 10,
-  };
+const trajectoriesPage = () => {
+  const [view, setView] = useState("map");
 
   return (
     <div className="w-full flex flex-col gap-4">

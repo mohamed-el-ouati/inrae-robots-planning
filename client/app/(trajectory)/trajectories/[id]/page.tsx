@@ -23,7 +23,7 @@ const mapStyles = {
 };
 
 const trajectoryPage = ({ params }: TrajectoryPageProps) => {
-  const url = `${baseUrl}/trajectories/${params.id}`;
+  const url = `/api/trajectories/${params.id}`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
   if (isLoading) return <div>Loading...</div>;

@@ -17,7 +17,7 @@ const SelectTrajectoryMap = () => {
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const plot = usePlotStore((state) => state.plot);
-  const url = `${baseUrl}/trajectories/points/${plot?.id}`;
+  const url = `/api/trajectories/points/${plot?.id}`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
   const convertWKBToCoordinates = (wkbString) => {

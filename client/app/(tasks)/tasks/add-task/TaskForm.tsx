@@ -62,26 +62,26 @@ const TaskForm = () => {
     // <SelectFormStep
     //   form={form}
     //   name="activity"
-    //   url={`${baseUrl}/activities/available`}
+    //   url={`api/activities/available`}
     // />,
     <ActivityStep form={form} name="activity" />,
     <RobotFormStep
       form={form}
-      url={`${baseUrl}/robots/available?start=${startDate}&end=${endDate}`}
+      url={`/api/robots/available?start=${startDate}&end=${endDate}`}
     />,
     // <SelectFormStep
     //   form={form}
     //   name="equipment"
-    //   url={`${baseUrl}/equipments/available?start=${startDate}&end=${endDate}`}
+    //   url={`api/equipments/available?start=${startDate}&end=${endDate}`}
     // />,
     <EquipmentStep
       form={form}
-      url={`${baseUrl}/equipments/available?start=${startDate}&end=${endDate}`}
+      url={`/api/equipments/available?start=${startDate}&end=${endDate}`}
     />,
     <PlotStep />,
     <TrajectoryStep
     // form={form}
-    // url={`${baseUrl}/trajectories/available?end=${endDate}&start=${startDate}&plot_id=${plot?.id}`}
+    // url={`api/trajectories/available?end=${endDate}&start=${startDate}&plot_id=${plot?.id}`}
     />,
   ]);
 

@@ -14,7 +14,7 @@ type updateEquipmentPageProps = {
 };
 
 async function getEquipmentById(id: string) {
-  const res = await fetch(`${baseUrl}/equipments/${id}`, {
+  const res = await fetch(`/api/equipments/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -41,7 +41,7 @@ const updateEquipmentPage = async ({ params }: updateEquipmentPageProps) => {
 
   async function onSubmit(values: z.infer<typeof equipmentSchema>) {
     try {
-      const response = await fetch(`${baseUrl}/equipments/${params.id}`, {
+      const response = await fetch(`/api/equipments/${params.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

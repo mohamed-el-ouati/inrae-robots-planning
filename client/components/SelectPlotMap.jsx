@@ -19,7 +19,7 @@ const SelectPlotMap = () => {
   const mapRef = useRef(null);
   const [clickedFeatureId, setClickedFeatureId] = useState(null);
   const setPlot = usePlotStore((state) => state.setPlot);
-  const { data, error, isLoading } = useSWR(`${baseUrl}/plots`, fetcher);
+  const { data, error, isLoading } = useSWR(`/api/plots`, fetcher);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;

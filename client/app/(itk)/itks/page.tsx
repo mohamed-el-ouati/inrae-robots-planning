@@ -1,23 +1,17 @@
+"use client";
+
 import React, { Suspense } from "react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { formatDateString } from "@/lib/utils/utils";
+import { fetcher } from "@/lib/fetcher";
+import useSWR from "swr";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const page = () => {
+  const { data: itks, error, isLoading } = useSWR(`/api/itks`, fetcher);
 
-async function getItks() {
-  const res = await fetch(`${baseUrl}/itks`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
-
-const page = async () => {
-  const itks = await getItks();
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data!</div>;
 
   itks.forEach((itk: any) => {
     if (itk.itk_start_date) {

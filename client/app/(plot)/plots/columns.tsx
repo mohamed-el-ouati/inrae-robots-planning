@@ -38,14 +38,14 @@ export const columns: ColumnDef<Plot>[] = [
         if (confirm(`Are you sure you want to delete trajectory ${name}?`)) {
           try {
             const tajectoryRefResponse = await fetch(
-              `${baseUrl}/trajectories/ref/${id}`,
+              `/api/trajectories/ref/${id}`,
               {
                 method: "DELETE",
               }
             );
 
             const tajectoryPointsResponse = await fetch(
-              `${baseUrl}/trajectories/points/${id}`,
+              `/api/trajectories/points/${id}`,
               {
                 method: "DELETE",
               }

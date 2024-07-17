@@ -23,7 +23,7 @@ const mapStyles = {
 };
 
 const trajectoryPage = ({ params }: TrajectoryPageProps) => {
-  //   const url = `${baseUrl}/trajectories/${params.id}`;
+  //   const url = `api/trajectories/${params.id}`;
   //   const { data, error, isLoading } = useSWR(url, fetcher);
 
   //   if (isLoading) return <div>Loading...</div>;
@@ -33,7 +33,7 @@ const trajectoryPage = ({ params }: TrajectoryPageProps) => {
   //   const id = data[0].id;
   //   const trajName = data[0].traj_name;
 
-  const url = `${baseUrl}/plots/${params.id}`;
+  const url = `/api/plots/${params.id}`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
   if (isLoading) return <div>Loading...</div>;

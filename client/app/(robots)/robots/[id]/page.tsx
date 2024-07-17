@@ -3,6 +3,7 @@ import { formatAndCapitalize } from "../../../../lib/utils/utils";
 import DetailsCard from "@/components/DetailsCard";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 type RobotPageProps = {
   params: {
     id: string;
@@ -41,7 +42,7 @@ const page = async ({ params }: RobotPageProps) => {
       // hasAnImage={robot.image_data !== ""}
       image={robot.image_data !== "" ? robot.image_data : null}
       editBtnLink={`/update-robot/${robot.id}`}
-      deleteUrl={`http://localhost:3001/robots/${robot.id}`}
+      deleteUrl={`${baseUrl}/robots/${robot.id}`}
     />
   );
 };

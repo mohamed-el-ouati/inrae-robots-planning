@@ -27,7 +27,7 @@ export default async function upload(data) {
   const description = data.get("description");
 
   console.log(name + description + filePath);
-  const trajectoryRefResponse = await fetch(`${baseUrl}/equipments`, {
+  const trajectoryRefResponse = await fetch(`/api/equipments`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

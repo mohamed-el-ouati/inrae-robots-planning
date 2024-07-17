@@ -4,7 +4,17 @@ const app = express();
 const port = 3001;
 require("dotenv").config();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000", // Your frontend development URL
+      "http://frontend:3000", // Your frontend URL inside the Docker network
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"], // Add other methods you need
+    allowedHeaders: ["Content-Type", "Authorization"], // Adjust headers as needed
+    credentials: true, // If you need to send cookies or authorization headers
+  })
+);
 app.use(express.json());
 
 app.use("/robots", require("./routes/robotRoute"));

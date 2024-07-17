@@ -6,8 +6,6 @@ import { z } from "zod";
 import { equipmentSchema } from "@/lib/validations/equipment";
 import EquipmentForm from "../EquipmentForm";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 const AddEquipment = () => {
   const { toast } = useToast();
   const defaultEquipmentValues = {
@@ -27,7 +25,7 @@ const AddEquipment = () => {
 
   async function onSubmit(values: z.infer<typeof equipmentSchema>) {
     try {
-      const response = await fetch(`${baseUrl}/equipments`, {
+      const response = await fetch(`/api/equipments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
