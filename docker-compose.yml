@@ -9,6 +9,8 @@ services:
       - server
     networks:
       - network
+    volumes:
+      - shared-files:/usr/src/app/files
 
   server:
     container_name: api
@@ -18,7 +20,12 @@ services:
       - 13000:3001
     networks:
       - network
+    volumes:
+      - shared-files:/usr/src/app/files
 
 networks:
   network:
     driver: bridge
+
+volumes:
+  shared-files:

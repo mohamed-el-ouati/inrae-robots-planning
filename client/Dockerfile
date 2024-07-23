@@ -10,4 +10,8 @@ COPY . .
 # Copy the public directory to the working directory in the container
 COPY ./public ./public
 
+# Create files directory
+RUN mkdir -p /usr/src/app/files
+
+
 CMD ["npm", "run", "dev"]
