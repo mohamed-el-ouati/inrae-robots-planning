@@ -50,7 +50,7 @@ exports.getItkTasksById = async (req, res) => {
     c.end_date,
     cr.id AS configuration_ref_id,
     i.name AS itk_name,
-	  i.id
+	  i.id AS itk_id
   FROM
     configuration c
   LEFT JOIN

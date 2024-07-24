@@ -1,14 +1,6 @@
 const pool = require("../services/db");
 const fs = require("fs");
 const path = require("path");
-exports.getEquipmentNames = async (req, res) => {
-  try {
-    const data = await pool.query("SELECT id, name FROM tool_sprayer");
-    res.status(200).send(data.rows);
-  } catch (error) {
-    res.sendStatus(500).json({ error: error.message });
-  }
-};
 
 exports.getAvailableEquipments = async (req, res) => {
   try {

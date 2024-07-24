@@ -17,7 +17,7 @@ services:
     restart: always
     build: ./server
     ports:
-      - 13000:3001
+      - 3001:3001
     networks:
       - network
     volumes:

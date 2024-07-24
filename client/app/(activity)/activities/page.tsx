@@ -13,7 +13,7 @@ const activitiesPage = () => {
     data: activities,
     error,
     isLoading,
-  } = useSWR(`api/activities/infos`, fetcher);
+  } = useSWR(`/api/activities`, fetcher);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data!</div>;

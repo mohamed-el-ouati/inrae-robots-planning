@@ -2,20 +2,42 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 3001;
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 require("dotenv").config();
 
 app.use(
   cors({
     origin: [
-      "http://localhost:3000", // Your frontend development URL
-      "http://frontend:3000", // Your frontend URL inside the Docker network
+      "http://localhost:3000", // Development URL
+      "http://frontend:3000", // Frontend URL inside the Docker network
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"], // Add other methods you need
-    allowedHeaders: ["Content-Type", "Authorization"], // Adjust headers as needed
-    credentials: true, // If you need to send cookies or authorization headers
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 app.use(express.json());
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Library API",
+      version: "1.0.0",
+      description: "A simple Express Library API",
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}`,
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsDoc(options);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use("/robots", require("./routes/robotRoute"));
 app.use("/tasks", require("./routes/taskRoute"));
