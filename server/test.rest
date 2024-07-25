@@ -1,5 +1,5 @@
 ### 
-GET http://localhost:3001/trajectories/points/json/45
+GET http://localhost:3001/pointtimeref/45
 ### 
 GET http://localhost:3001/equipments/8
 ### 

@@ -20,42 +20,6 @@ const itkController = require("../controllers/itkController");
  *       example:
  *         id: 1
  *         name: "Example ITK"
- *     ITKResponse:
- *       type: object
- *       properties:
- *         robot_name:
- *           type: string
- *         activity_name:
- *           type: string
- *         plot_name:
- *           type: string
- *         trajectory_name:
- *           type: string
- *         equipment_name:
- *           type: string
- *         start_date:
- *           type: string
- *           format: date-time
- *         end_date:
- *           type: string
- *           format: date-time
- *         configuration_ref_id:
- *           type: integer
- *         itk_name:
- *           type: string
- *         id:
- *           type: integer
- *       example:
- *         robot_name: "Adap2e"
- *         activity_name: "Préparation du lit de semence"
- *         plot_name: "12 PAL"
- *         trajectory_name: "montoldre_rose_cc"
- *         equipment_name: "tech3"
- *         start_date: "2024-07-02T22:00:00.000Z"
- *         end_date: "2024-07-04T22:00:00.000Z"
- *         configuration_ref_id: 43
- *         itk_name: "Test ITK"
- *         id: 35
  */
 
 /**
@@ -110,7 +74,7 @@ router.post("/", itkController.createItk);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/ITKResponse'
+ *                 $ref: '#/components/schemas/ITK'
  *       404:
  *         description: ITK not found
  *       500:

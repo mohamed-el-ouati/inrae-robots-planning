@@ -49,7 +49,7 @@ export const columns: ColumnDef<Trajectory>[] = [
             );
 
             const tajectoryPointsResponse = await fetch(
-              `/api/trajectories/points/${id}`,
+              `/api/trajectories/points/trajectory/${id}`,
               {
                 method: "DELETE",
               }

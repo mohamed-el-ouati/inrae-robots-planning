@@ -7,17 +7,21 @@ import { useRef, useState } from "react";
 import useTrajectoryStore from "@/lib/store/TrajectoryStore";
 import "mapbox-gl/dist/mapbox-gl.css";
 import usePlotStore from "@/lib/store/PlotStore";
+import useReferenceTrajectoryStore from "@/lib/store/ReferenceTrajectory";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 const SelectTraj = () => {
   const mapRef = useRef(null);
-  const [selectedFeatureIds, setSelectedFeatureIds] = useState([]);
+  const [clickedFeatureId, setClickedFeatureId] = useState(null);
   const setTrajectory = useTrajectoryStore((state) => state.setTrajectory);
+  const setReferenceTrajectory = useReferenceTrajectoryStore(
+    (s) => s.setReferenceTrajectory
+  );
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const url = `/api/trajectories/`;
+  const url = `/api/trajectories/points`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
   const convertWKBToCoordinates = (wkbString) => {
@@ -65,7 +69,7 @@ const SelectTraj = () => {
     paint: {
       "line-color": [
         "case",
-        ["boolean", ["in", ["get", "id"], ["literal", selectedFeatureIds]]],
+        ["boolean", ["==", ["get", "id"], clickedFeatureId]],
         "#ff0000",
         "#0000FF",
       ],
@@ -76,17 +80,9 @@ const SelectTraj = () => {
   const handleClick = (e) => {
     const features = e.target.queryRenderedFeatures(e.point);
     const clickedId = features[0]?.properties.id;
-
-    setSelectedFeatureIds((prevSelectedFeatureIds) => {
-      if (prevSelectedFeatureIds.includes(clickedId)) {
-        return prevSelectedFeatureIds.filter((id) => id !== clickedId);
-      } else {
-        return [...prevSelectedFeatureIds, clickedId];
-      }
-    });
-
+    setClickedFeatureId(clickedId);
     setTrajectory({ id: clickedId, name: "traj" + clickedId });
-    console.log("selected trajs : " + selectedFeatureIds);
+    setReferenceTrajectory({ id: clickedId });
   };
 
   const initialCoordinates = trajectoryGeoJSONs.length

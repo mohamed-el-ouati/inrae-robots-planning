@@ -12,9 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
 import { Plot } from "../../../lib/types/index";
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const columns: ColumnDef<Plot>[] = [
   {
@@ -28,44 +26,13 @@ export const columns: ColumnDef<Plot>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const trajectory = row.original;
+      const plot = row.original;
       const router = useRouter();
-      const { toast } = useToast();
+
       const ViewInMap = (id: number) => {
         router.push("/plots/" + id);
       };
-      const DeleteTrajectory = async (id: number, name: string) => {
-        if (confirm(`Are you sure you want to delete trajectory ${name}?`)) {
-          try {
-            const tajectoryRefResponse = await fetch(
-              `/api/trajectories/ref/${id}`,
-              {
-                method: "DELETE",
-              }
-            );
 
-            const tajectoryPointsResponse = await fetch(
-              `/api/trajectories/points/${id}`,
-              {
-                method: "DELETE",
-              }
-            );
-
-            if (!tajectoryRefResponse.ok || !tajectoryPointsResponse.ok)
-              throw new Error("Failed to delete the robot");
-
-            toast({
-              title: "Trajectory deleted successfully!",
-            });
-            router.refresh();
-          } catch (error) {
-            toast({
-              title: "There was an error deleting the trajectory.",
-              variant: "destructive",
-            });
-          }
-        }
-      };
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -76,17 +43,11 @@ export const columns: ColumnDef<Plot>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => ViewInMap(trajectory.id)}>
+            <DropdownMenuItem onClick={() => ViewInMap(plot.id)}>
               View in Map
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-            // onClick={() => {
-            //   DeleteTrajectory(trajectory.id, trajectory.traj_name);
-            // }}
-            >
-              Delete
-            </DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

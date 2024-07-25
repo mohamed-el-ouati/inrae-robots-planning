@@ -11,7 +11,10 @@ const mapStyles = {
   borderRadius: 10,
 };
 const MapView = () => {
-  const { data, error, isLoading } = useSWR(`/api/trajectories`, fetcher);
+  const { data, error, isLoading } = useSWR(
+    `/api/trajectories/points`,
+    fetcher
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;

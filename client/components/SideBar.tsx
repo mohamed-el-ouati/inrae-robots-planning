@@ -5,11 +5,9 @@ import { SidebarButton } from "./SideBarButton";
 import Link from "next/link";
 import {
   Tractor,
-  CirclePlus,
   CalendarPlus,
   Calendar,
-  ChevronDown,
-  LayoutDashboard,
+  Route,
   Map,
   Sprout,
   Drill,
@@ -39,6 +37,7 @@ const SideBar = () => {
   const fieldItems = [
     { label: "Plots", href: "/plots", icon: Map },
     { label: "Trajectories", href: "/trajectories", icon: Waypoints },
+    { label: "Reference trajectory", href: "/map", icon: Route },
   ];
   const recources = [{ label: "Robot", href: "/robots", icon: Tractor }];
   const pathname = usePathname();

@@ -24,7 +24,7 @@ exports.getAvailableTrajectories = async (req, res) => {
   }
 };
 
-exports.getTrajectoriesPoints = async (req, res) => {
+exports.getTrajectoriesPointsByPlotId = async (req, res) => {
   const query = `
     SELECT pt.*
     FROM public.point_timeref pt
@@ -61,8 +61,7 @@ exports.getAllTrajectoriesPoints = async (req, res) => {
   }
 };
 
-// For list view
-exports.getAllTrajectoriesList = async (req, res) => {
+exports.getAllTrajectoriesWithoutPoints = async (req, res) => {
   const query = `SELECT id, plot_name, traj_name
   FROM (
       SELECT pt.id,  p.name AS plot_name, tr.name AS traj_name,
@@ -97,6 +96,26 @@ exports.getTrajectoryById = async (req, res) => {
       res.status(404).json({ message: "Trajectory not found" });
     }
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getTrajectoryPointsById = async (req, res) => {
+  const query = `
+    SELECT pt.id, pt.point, pt.ord_id, pt.speed, pt.storage_timestamp
+    FROM point_timeref pt
+    LEFT JOIN trajectory_ref tr ON tr.id = pt.id
+    WHERE tr.id = $1
+    ORDER BY pt.id ASC, pt.ord_id ASC
+  `;
+
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query(query, [id]);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Database query error:", error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -190,52 +209,5 @@ exports.deleteTrajectoryPoints = async (req, res) => {
     console.log(JSON.stringify(result, null, 2));
   } catch (err) {
     console.error("Error processing data", err);
-  }
-};
-
-//////////////\\\\\\\\\\\\\\
-exports.getTrajectoryJSONById = async (req, res) => {
-  const query = `SELECT pt.id, pt.point, pt.ord_id, pt.speed
-  FROM public.point_timeref pt
-  LEFT JOIN trajectory_ref tr ON tr.id = pt.id
-  where tr.id = $1
-  ORDER BY pt.id ASC, pt.ord_id ASC`;
-
-  const { id } = req.params;
-
-  try {
-    const data = await pool.query(query, [id]);
-
-    if (data.rows.length > 0) {
-      // Convert data to the desired JSON structure
-      const points = data.rows.map((row) => {
-        const geom = wkx.Geometry.parse(Buffer.from(row.point, "hex"));
-        const coordinates = geom.toGeoJSON().coordinates;
-        return [coordinates[0], coordinates[1], row.speed];
-      });
-
-      const responseJson = {
-        version: "2",
-        origin: {
-          type: "WGS84",
-          coordinates: [
-            points[0][0],
-            points[0][1],
-            points[0][2], // Assuming the first point has an altitude or ordinal for origin
-          ],
-        },
-        points: {
-          columns: ["x", "y", "speed"],
-          values: points,
-        },
-      };
-
-      res.status(200).json(responseJson);
-    } else {
-      res.status(404).json({ message: "Trajectory not found" });
-    }
-  } catch (error) {
-    console.error("Error processing data", error);
-    res.status(500).json({ error: error.message });
   }
 };

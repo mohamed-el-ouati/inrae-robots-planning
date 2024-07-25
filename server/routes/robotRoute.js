@@ -112,7 +112,7 @@ const robotController = require("../controllers/robotController");
  *     tags: [Robots]
  *     responses:
  *       200:
- *         description: The list of robots
+ *         description: Returns a list of all robots with their full details.
  *         content:
  *           application/json:
  *             schema:
@@ -120,6 +120,7 @@ const robotController = require("../controllers/robotController");
  *               items:
  *                 $ref: '#/components/schemas/Robot'
  */
+router.get("/", robotController.getAllRobots);
 
 /**
  * @swagger
@@ -129,7 +130,7 @@ const robotController = require("../controllers/robotController");
  *     tags: [Robots]
  *     responses:
  *       200:
- *         description: The list of available robots
+ *         description: Returns a list of robots that are currently available.
  *         content:
  *           application/json:
  *             schema:
@@ -137,6 +138,7 @@ const robotController = require("../controllers/robotController");
  *               items:
  *                 $ref: '#/components/schemas/Robot'
  */
+router.get("/available", robotController.getAvailableRobots);
 
 /**
  * @swagger
@@ -146,7 +148,7 @@ const robotController = require("../controllers/robotController");
  *     tags: [Robots]
  *     responses:
  *       200:
- *         description: The list of robots' essential info
+ *         description: Returns a list of robots with only essential information.
  *         content:
  *           application/json:
  *             schema:
@@ -154,6 +156,7 @@ const robotController = require("../controllers/robotController");
  *               items:
  *                 $ref: '#/components/schemas/Robot'
  */
+router.get("/essentials", robotController.getRobotsEssentialInfo);
 
 /**
  * @swagger
@@ -167,17 +170,18 @@ const robotController = require("../controllers/robotController");
  *         schema:
  *           type: integer
  *         required: true
- *         description: The robot ID
+ *         description: The ID of the robot to retrieve.
  *     responses:
  *       200:
- *         description: The robot description by ID
+ *         description: Returns the robot with the specified ID.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Robot'
  *       404:
- *         description: The robot was not found
+ *         description: Robot not found with the provided ID.
  */
+router.get("/:id", robotController.getRobotById);
 
 /**
  * @swagger
@@ -193,14 +197,15 @@ const robotController = require("../controllers/robotController");
  *             $ref: '#/components/schemas/Robot'
  *     responses:
  *       201:
- *         description: The robot was successfully created
+ *         description: The newly created robot is returned.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Robot'
  *       500:
- *         description: Some server error
+ *         description: An error occurred while creating the robot.
  */
+router.post("/", robotController.createRobot);
 
 /**
  * @swagger
@@ -214,7 +219,7 @@ const robotController = require("../controllers/robotController");
  *         schema:
  *           type: integer
  *         required: true
- *         description: The robot ID
+ *         description: The ID of the robot to update.
  *     requestBody:
  *       required: true
  *       content:
@@ -223,16 +228,17 @@ const robotController = require("../controllers/robotController");
  *             $ref: '#/components/schemas/Robot'
  *     responses:
  *       200:
- *         description: The robot was successfully updated
+ *         description: The updated robot is returned.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Robot'
  *       404:
- *         description: The robot was not found
+ *         description: Robot not found with the provided ID.
  *       500:
- *         description: Some server error
+ *         description: An error occurred while updating the robot.
  */
+router.put("/:id", robotController.updateRobot);
 
 /**
  * @swagger
@@ -246,19 +252,13 @@ const robotController = require("../controllers/robotController");
  *         schema:
  *           type: integer
  *         required: true
- *         description: The robot ID
+ *         description: The ID of the robot to delete.
  *     responses:
  *       200:
- *         description: The robot was successfully deleted
+ *         description: The robot was successfully deleted.
  *       404:
- *         description: The robot was not found
+ *         description: Robot not found with the provided ID.
  */
-router.get("/", robotController.getAllRobots);
-router.get("/available", robotController.getAvailableRobots);
-router.get("/essentials", robotController.getRobotsEssentialInfo);
-router.get("/:id", robotController.getRobotById);
-router.post("/", robotController.createRobot);
-router.put("/:id", robotController.updateRobot);
 router.delete("/:id", robotController.deleteRobot);
 
 module.exports = router;

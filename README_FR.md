@@ -113,6 +113,14 @@ npm run dev
 
 L'application devrait maintenant être accessible à l'adresse http://localhost:3000.
 
+## Documentation de l'API
+
+La documentation de l'API pour ce projet est disponible via Swagger UI. Vous pouvez y accéder localement en visitant l'URL suivante dans votre navigateur :
+
+http://localhost:3001/api-docs/
+
+Cette documentation fournit des détails sur tous les points de terminaison disponibles, les formats de requêtes/réponses, et d'autres informations pertinentes sur l'API.
+
 ## Notes supplémentaires
 
 - Assurez-vous que Docker et Docker Compose sont installés sur votre machine.
