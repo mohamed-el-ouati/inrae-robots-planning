@@ -50,6 +50,8 @@ app.use("/trajectories", require("./routes/trajectoryRoute"));
 app.use("/configurations", require("./routes/configurationRoute"));
 app.use("/configurations-ref", require("./routes/configurationRefRoute"));
 app.use("/itks", require("./routes/itkRoute"));
+app.use("/alerts", require("./routes/alertRoute"));
+app.use("/requests", require("./routes/requestRoute"));
 app.use(
   "/robots-power-categories",
   require("./routes/robotPowerCategoryRoute")

@@ -64,7 +64,21 @@ const TrajectoryMap = ({ trajectoryData, styles, isMontoldre = false }) => {
     id: "trajectory",
     type: "line",
     paint: {
-      "line-color": "#0000FF",
+      "line-color": [
+            'match',
+            ['get', 'id'],
+            '44', 'Sienna',
+	    '45', 'Cornsilk',
+	    '46', 'SteelBlue',
+	    '47', 'BlueViolet',
+	    '48', 'Coral',
+	    '49', 'Yellow',
+	    '0', 'Pink',
+	    '6', 'Khaki',
+	    '5', 'Moccasin',
+	    '4', 'LemonChiffon',
+            'red',
+        ],
       "line-width": 3,
     },
   };

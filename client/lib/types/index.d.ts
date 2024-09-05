@@ -29,6 +29,22 @@ export type RobotEssentials = {
   image_data: string;
 };
 
+export type Alerts = {
+  source: string;
+  description: string;
+  variables: string;
+  time: string;
+};
+
+
+export type Requests = {
+  id: number;
+  priority: number;
+  starttime: string;
+  plot_id: number;
+};
+
+
 export type Trajectory = {
   id: number;
   traj_name: string;

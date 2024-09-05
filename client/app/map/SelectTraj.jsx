@@ -68,10 +68,11 @@ const SelectTraj = () => {
     type: "line",
     paint: {
       "line-color": [
-        "case",
+             "case",
         ["boolean", ["==", ["get", "id"], clickedFeatureId]],
         "#ff0000",
         "#0000FF",
+
       ],
       "line-width": 3,
     },

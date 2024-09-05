@@ -10,6 +10,7 @@ import {
   Route,
   Map,
   Sprout,
+  TriangleAlert,
   Drill,
   Waypoints,
 } from "lucide-react";
@@ -39,6 +40,10 @@ const SideBar = () => {
     { label: "Trajectories", href: "/trajectories", icon: Waypoints },
     { label: "Reference trajectory", href: "/map", icon: Route },
   ];
+  const alertItems=[
+    { label: "Alerts", href: "/alerts", icon:TriangleAlert },
+    { label: "requests", href: "/requests", icon:TriangleAlert },
+];
   const recources = [{ label: "Robot", href: "/robots", icon: Tractor }];
   const pathname = usePathname();
 
@@ -122,6 +127,21 @@ const SideBar = () => {
               </SidebarButton>
             </Link>
           ))}
+	
+	  <h3 className="mx-3 font-semibold text-slate-900 my-2">
+            Alerts
+          </h3>
+          {alertItems.map((item, index) => (
+            <Link key={index} href={item.href}>
+              <SidebarButton
+                variant={pathname === item.href ? "secondary" : "ghost"}
+                icon={item.icon}
+              >
+                {item.label}
+              </SidebarButton>
+            </Link>
+          ))}
+
         </div>
       </div>
     </aside>

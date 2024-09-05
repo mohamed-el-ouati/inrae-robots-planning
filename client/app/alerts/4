@@ -1,0 +1,22 @@
+"use client";
+
+import useSWR from "swr";
+import { fetcher } from "@/lib/fetcher";
+import React from 'react';
+import AlertsTable from "./AlertsTable";
+
+const Page: React.FC = () => {
+    const { data, error, isLoading } = useSWR("/api/alerts", fetcher);
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error loading data!</div>;
+    console.log(data);
+    return(
+    <div classeName="w-full" >
+      <h1>Alertes</h1>
+      <AlertsTable />
+    </div>
+  );
+};
+
+export default Page;
+
