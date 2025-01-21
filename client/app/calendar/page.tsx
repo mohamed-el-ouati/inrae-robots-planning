@@ -22,7 +22,7 @@ const CalenderPage = () => {
 
   return (
     <div className="w-full">
-      <h1 className="text-4xl font-semibold mb-4">Calendar</h1>
+      <h1 className="text-4xl font-semibold mb-4">Calendrier</h1>
       <Card className="p-4">
         <CardContent>
           <Calendar events={data} />

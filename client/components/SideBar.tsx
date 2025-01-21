@@ -24,21 +24,21 @@ import {
 const SideBar = () => {
   const generalItems = [
     // { label: "Dashboard", href: "/", icon: LayoutDashboard },
-    { label: "Calendar", href: "/calendar", icon: Calendar },
-    { label: "Activities", href: "/activities", icon: Tractor },
+    { label: "Calendrier", href: "/calendar", icon: Calendar },
+    { label: "Activités", href: "/activities", icon: Tractor },
   ];
   const itkItems = [
-    { label: "ITK Planning", href: "/add-itk", icon: CalendarPlus },
-    { label: "Planned ITKs", href: "/itks", icon: Sprout },
+    { label: "Planification de l'ITK", href: "/add-itk", icon: CalendarPlus },
+    { label: "ITK prévus", href: "/itks", icon: Sprout },
   ];
   const ResourcesItems = [
     { label: "Robots", href: "/robots", icon: Tractor },
-    { label: "Equipment", href: "/equipments", icon: Drill },
+    { label: "Équipement", href: "/equipments", icon: Drill },
   ];
   const fieldItems = [
-    { label: "Plots", href: "/plots", icon: Map },
-    { label: "Trajectories", href: "/trajectories", icon: Waypoints },
-    { label: "Reference trajectory", href: "/map", icon: Route },
+    { label: "Parcelles", href: "/plots", icon: Map },
+    { label: "Trajectoires", href: "/trajectories", icon: Waypoints },
+    { label: "Trajectoire de référence", href: "/map", icon: Route },
   ];
   const alertItems=[
     { label: "Alerts", href: "/alerts", icon:TriangleAlert },
