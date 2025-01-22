@@ -1,4 +1,5 @@
 "use client";
+
 import { useMultistepForm } from "../../../../lib/hooks/useMultistepForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,17 +9,13 @@ import { Form } from "@/components/ui/form";
 import TimeStep from "./_steps/TimeStep";
 import { taskSchema } from "@/lib/validations/task";
 import dynamic from "next/dynamic";
-import SelectFormStep from "./_steps/SelectFormStep";
 import { formatDate, splitNameAndId } from "@/lib/utils/utils";
-import RobotFormStep from "./_steps/RobotStep";
-import useTaskStore from "@/lib/store/TaskStore";
 import PlotStep from "./_steps/PlotStep";
 import usePlotStore from "@/lib/store/PlotStore";
-import useTrajectoryStore from "@/lib/store/TrajectoryStore";
-import TrajectoryStep from "./_steps/TrajectoryStep";
-import ActivityStep from "./_steps/ActivityStep";
-import EquipmentStep from "./_steps/EquipmentStep";
+import RobotAndEquipmentStep from "./_steps/RobotAndEquipmentStep";
 import { useState } from "react";
+import ActivityStep from "./_steps/ActivityStep";
+import { useRouter } from "next/navigation";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const StepperComponent = dynamic(
@@ -29,6 +26,8 @@ const StepperComponent = dynamic(
 );
 
 const TaskForm = () => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
@@ -39,86 +38,57 @@ const TaskForm = () => {
       robot: "",
       equipment: "",
       plot: "",
-      trajectory: "",
     },
   });
+
   const { getValues } = form;
   const values = getValues();
   const startDate = values.start_date ? formatDate(values.start_date) : "";
   const endDate = values.end_date ? formatDate(values.end_date) : "";
   const plot = usePlotStore((state) => state.plot);
-  const trajectory = useTrajectoryStore((state) => state.trajectory);
-  const {
-    steps,
-    currentStepIndex,
-    step,
-    isFirstStep,
-    isLastStep,
-    back,
-    next,
-    goTo,
-  } = useMultistepForm([
-    <TimeStep form={form} />,
-    // <SelectFormStep
-    //   form={form}
-    //   name="activity"
-    //   url={`api/activities/available`}
-    // />,
-    <ActivityStep form={form} name="activity" />,
-    <RobotFormStep
-      form={form}
-      url={`/api/robots/available?start=${startDate}&end=${endDate}`}
-    />,
-    // <SelectFormStep
-    //   form={form}
-    //   name="equipment"
-    //   url={`api/equipments/available?start=${startDate}&end=${endDate}`}
-    // />,
-    <EquipmentStep
-      form={form}
-      url={`/api/equipments/available?start=${startDate}&end=${endDate}`}
-    />,
-    <PlotStep />,
-    <TrajectoryStep
-    // form={form}
-    // url={`api/trajectories/available?end=${endDate}&start=${startDate}&plot_id=${plot?.id}`}
-    />,
-  ]);
+  const { currentStepIndex, step, isFirstStep, isLastStep, back, next, goTo } =
+    useMultistepForm([
+      <ActivityStep form={form} />,
+      <PlotStep />,
+      <TimeStep form={form} />,
+      <RobotAndEquipmentStep
+        form={form}
+        robotUrl={`/api/robots/available?start=${startDate}&end=${endDate}`}
+        equipmentUrl={`/api/equipments/available?start=${startDate}&end=${endDate}`}
+      />,
+    ]);
 
-  const addTask = useTaskStore((s) => s.addTask);
   const [error, setError] = useState<string | null>(null);
 
-  const validateDates = () => {
-    const start_date = form.getValues("start_date");
-    const end_date = form.getValues("end_date");
-    if (end_date && start_date && end_date <= start_date) {
-      setError("End date must be later than start date"!);
-      return false;
-    }
-    setError(null);
-    return true;
-  };
-
   async function onSubmit(values: z.infer<typeof taskSchema>) {
-    if (!validateDates()) return;
     if (!isLastStep) return next();
-    addTask({
-      id: 0,
-      itk_id: 0,
-      start_date: formatDate(values.start_date),
-      end_date: formatDate(values.end_date),
-      plot_name: plot?.name,
-      plot_id: plot?.id,
-      activity_name: splitNameAndId(values.activity).name,
-      activity_id: splitNameAndId(values.activity).id,
-      equipment_name: splitNameAndId(values.equipment).name,
-      equipment_id: splitNameAndId(values.equipment).id,
-      robot_name: splitNameAndId(values.robot).name,
-      robot_id: splitNameAndId(values.robot).id,
-      trajectory_name: trajectory?.name,
-      trajectory_id: trajectory?.id,
-    });
-    goTo(0);
+
+    try {
+      const configurationResponse = await fetch(`/api/configurations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          start_date: formatDate(values.start_date),
+          end_date: formatDate(values.end_date),
+          plot_id: plot?.id,
+          activity_id: splitNameAndId(values.activity).id,
+          equipment_id: splitNameAndId(values.equipment).id,
+          robot_id: splitNameAndId(values.robot).id,
+        }),
+      });
+
+      if (!configurationResponse.ok) {
+        throw new Error(
+          `Failed to insert task: ${await configurationResponse.text()}`
+        );
+      }
+    } catch (error) {
+      console.error("Error inserting task:", error);
+    }
+
+    router.push("/");
   }
 
   return (
@@ -126,12 +96,10 @@ const TaskForm = () => {
       <div className="w-full">
         <StepperComponent
           steps={[
-            { label: "Time" },
             { label: "Activity" },
-            { label: "Robot" },
-            { label: "Equipment" },
             { label: "Plot" },
-            { label: "Trajectory" },
+            { label: "Time" },
+            { label: "Robot & Equipment" },
           ]}
           activeStep={currentStepIndex}
         />

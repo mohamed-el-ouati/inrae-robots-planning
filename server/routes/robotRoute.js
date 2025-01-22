@@ -9,91 +9,48 @@ const robotController = require("../controllers/robotController");
  *       type: object
  *       required:
  *         - id
- *         - id_powercat
+ *         - name
+ *         - description
+ *         - image_data
  *       properties:
  *         id:
  *           type: integer
  *           description: The robot ID
- *         weight:
+ *         weight_kg:
  *           type: integer
- *           description: The weight of the robot
+ *           description: The weight of the robot in kilograms
  *         name:
  *           type: string
  *           description: The name of the robot
  *         description:
  *           type: string
  *           description: The description of the robot
- *         puissance_kwh:
+ *         max_speed_mps:
  *           type: number
  *           format: float
- *           description: The power in kWh
- *         recharge_time:
+ *           description: The maximum speed in meters per second
+ *         autonomy:
  *           type: string
- *           format: duration
- *           description: The recharge time
- *         operating_time:
+ *           description: The autonomy of the robot
+ *         locomotion:
  *           type: string
- *           format: duration
- *           description: The operating time
- *         frontaxle_steeringspeed:
- *           type: number
- *           format: float
- *           description: The steering speed of the front axle
- *         maxangle_steering:
- *           type: number
- *           format: float
- *           description: The maximum steering angle
- *         rearaxle_steeringspeed:
- *           type: number
- *           format: float
- *           description: The steering speed of the rear axle
- *         id_powercat:
- *           type: integer
- *           description: The ID of the power category
- *         availableTill:
+ *           description: The locomotion type of the robot
+ *         on_board_sensors:
  *           type: string
- *           format: date
- *           description: The date until which the robot is available
- *         steering_wheel:
- *           type: integer
- *           description: The number of steering wheels
- *         driving_wheel:
- *           type: integer
- *           description: The number of driving wheels
- *         dim_length:
- *           type: number
- *           format: float
- *           description: The length dimension
- *         dim_width:
- *           type: number
- *           format: float
- *           description: The width dimension
- *         dim_height:
- *           type: number
- *           format: float
- *           description: The height dimension
+ *           description: The onboard sensors of the robot
  *         image_data:
  *           type: string
  *           format: byte
  *           description: The image data of the robot
  *       example:
  *         id: 1
- *         weight: 1200
+ *         weight_kg: 1200
  *         name: "Robot A"
  *         description: "This is a sample robot."
- *         puissance_kwh: 10.5
- *         recharge_time: "PT1H30M"
- *         operating_time: "PT4H"
- *         frontaxle_steeringspeed: 30.0
- *         maxangle_steering: 45.0
- *         rearaxle_steeringspeed: 25.0
- *         id_powercat: 2
- *         availableTill: "2024-12-31"
- *         steering_wheel: 4
- *         driving_wheel: 4
- *         dim_length: 3.5
- *         dim_width: 1.5
- *         dim_height: 1.2
+ *         max_speed_mps: 10.5
+ *         autonomy: "2 hours"
+ *         locomotion: "Wheeled"
+ *         on_board_sensors: "Camera, Lidar"
  *         image_data: "base64encodeddata"
  */
 
@@ -128,6 +85,19 @@ router.get("/", robotController.getAllRobots);
  *   get:
  *     summary: Lists all available robots
  *     tags: [Robots]
+ *     parameters:
+ *       - in: query
+ *         name: start
+ *         required: true
+ *         description: Start date for availability check (ISO 8601 format).
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: end
+ *         required: true
+ *         description: End date for availability check (ISO 8601 format).
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Returns a list of robots that are currently available.
@@ -139,6 +109,34 @@ router.get("/", robotController.getAllRobots);
  *                 $ref: '#/components/schemas/Robot'
  */
 router.get("/available", robotController.getAvailableRobots);
+
+/**
+ * @swagger
+ * /robots/id-and-name:
+ *   get:
+ *     summary: Lists the ID and name of all robots
+ *     tags: [Robots]
+ *     responses:
+ *       200:
+ *         description: Returns a list of robots with only their ID and name.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The robot ID
+ *                   name:
+ *                     type: string
+ *                     description: The name of the robot
+ *                 example:
+ *                   id: 1
+ *                   name: "Robot A"
+ */
+router.get("/id-and-name", robotController.getRobotsIdAndName);
 
 /**
  * @swagger
@@ -167,10 +165,10 @@ router.get("/essentials", robotController.getRobotsEssentialInfo);
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: integer
  *         required: true
  *         description: The ID of the robot to retrieve.
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: Returns the robot with the specified ID.
@@ -202,6 +200,8 @@ router.get("/:id", robotController.getRobotById);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Robot'
+ *       400:
+ *         description: Bad request due to missing required fields.
  *       500:
  *         description: An error occurred while creating the robot.
  */
@@ -216,10 +216,10 @@ router.post("/", robotController.createRobot);
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: integer
  *         required: true
  *         description: The ID of the robot to update.
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -233,6 +233,8 @@ router.post("/", robotController.createRobot);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Robot'
+ *       400:
+ *         description: Bad request due to missing required fields or invalid data.
  *       404:
  *         description: Robot not found with the provided ID.
  *       500:
@@ -249,10 +251,10 @@ router.put("/:id", robotController.updateRobot);
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: integer
  *         required: true
  *         description: The ID of the robot to delete.
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: The robot was successfully deleted.

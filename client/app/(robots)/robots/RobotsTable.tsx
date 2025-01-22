@@ -21,8 +21,8 @@ const RobotsTable = () => {
     if (robot.operating_time) {
       robot.operating_time = formatDuration(robot.operating_time);
     }
-    if (robot.image_data && robot.image_data.data) {
-      robot.image_data = convertImageDataToBase64(robot.image_data.data);
+    if (robot.image && robot.image.data) {
+      robot.image = convertImageDataToBase64(robot.image.data);
     }
   });
   return <DataTable columns={columns} data={robots} />;

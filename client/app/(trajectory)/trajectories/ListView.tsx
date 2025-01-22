@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 const url = `/api/trajectories/`;
 
 const ListView = () => {

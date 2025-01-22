@@ -7,11 +7,11 @@ const addTaskPage = () => {
   return (
     <div className="w-full h-full">
       <div className="flex pb-4 justify-between gap-4">
-        <h1 className="text-4xl font-semibold">Task Planning</h1>
+        <h1 className="text-4xl font-semibold">Planification des tâches</h1>
       </div>
-      <Card className="w-full h-full ">
+      <Card className="w-full h-full">
         <CardHeader>
-          <CardTitle className="text-3xl">Add a new Task</CardTitle>
+          <CardTitle className="text-3xl">Ajouter une nouvelle tâche</CardTitle>
         </CardHeader>
         <CardContent>
           <TaskForm />

@@ -1,23 +1,24 @@
- import Link from 'next/link';
-import styles from './Timeline.module.scss' 
- 
+import Link from "next/link";
+import styles from "./Timeline.module.scss";
+
 type TimelineProps = {
- tasks : any[];
-}
+  tasks: any[];
+};
 
-const Timeline = ({tasks} : TimelineProps) => {
-
-   
+const Timeline = ({ tasks }: TimelineProps) => {
   return (
-  <nav className={styles.breadcrumb}>
-    <ul>
-    {tasks.map((task, index)=> (<li key={index} >
-   <Link href={`/tasks/${task.configuration_ref_id}`} className={styles.link}> {task.activity_name}</Link>
-  </li>) )}
-    </ul>
-  
-  </nav>
-  )
-}
+    <nav className={styles.breadcrumb}>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            <Link href={`/tasks/${task.task_id}`} className={styles.link}>
+              {task.activity_name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
-export default Timeline
+export default Timeline;

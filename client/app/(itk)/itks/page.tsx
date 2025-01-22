@@ -10,8 +10,8 @@ import useSWR from "swr";
 const page = () => {
   const { data: itks, error, isLoading } = useSWR(`/api/itks`, fetcher);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data!</div>;
+  if (isLoading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur lors du chargement des données !</div>;
 
   itks.forEach((itk: any) => {
     if (itk.itk_start_date) {
@@ -25,9 +25,9 @@ const page = () => {
   return (
     <div className="w-full">
       <div className="flex pb-4 justify-between gap-4">
-        <h1 className="text-4xl font-semibold">Planned ITKs</h1>
+        <h1 className="text-4xl font-semibold">ITK planifiés</h1>
       </div>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<p>Chargement...</p>}>
         <DataTable columns={columns} data={itks} />
       </Suspense>
     </div>

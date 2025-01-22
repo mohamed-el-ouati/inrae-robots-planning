@@ -31,19 +31,22 @@ export function formatDate(date: Date): string {
 }
 
 /**
- * Convert date String to readable format (MM:DD:YY HH:MM:SS)
- * @param {string} dateString
- * @returns
+ * Converts an ISO 8601 date string to a readable format (MM/DD/YY HH:MM:SS).
+ * @param isoDateString - The ISO 8601 date string to convert.
+ * @returns A string representing the date in MM/DD/YY HH:MM:SS format.
  */
-export const formatDateString = (dateString: string) => {
-  return new Date(dateString).toLocaleString("default", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+export function formatDateString(isoDateString: string): string {
+  const date = new Date(isoDateString);
+
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = String(date.getFullYear()).slice(-2);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+
+  return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+}
 
 /**
  * Convert time object to readable format (HH:MM:SS).

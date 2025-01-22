@@ -24,15 +24,21 @@ const ItkPage = ({ params }: ItkPageProps) => {
 
   return (
     <div className="w-full h-full">
-      <Card className="w-full h-full pt-6">
-        <CardContent>
-          <CardTitle className="text-3xl">{itk[0].itk_name}</CardTitle>
-          <div className="flex w-full justify-center">
-            <Timeline tasks={itk} />
-          </div>
-          <GanttChart data={itk} />
-        </CardContent>
-      </Card>
+      {!itk[0] || itk.message === "ITK not found" ? (
+        <div className="text-center">
+          There was an error retrieving this ITK.
+        </div>
+      ) : (
+        <Card className="w-full h-full pt-6">
+          <CardContent>
+            <CardTitle className="text-3xl">{itk[0].itk_name}</CardTitle>
+            <div className="flex w-full justify-center">
+              <Timeline tasks={itk} />
+            </div>
+            <GanttChart data={itk} />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

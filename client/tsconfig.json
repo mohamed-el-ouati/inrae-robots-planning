@@ -30,6 +30,6 @@
     "utils/timeValidation.ts",
     "components/SelectPlotMap.jsx",
     "app/(trajectory)/add-trajectory/TrajectoryForm.jsx"
-  ],
+, "app/(equipment)/EquipmentForm.jsx", "app/(robots)/RobotForm.jsx", "app/(robots)/update-robot/[id]/page.jsx", "app/(equipment)/update-equipment/[id]/page.jsx"  ],
   "exclude": ["node_modules"]
 }

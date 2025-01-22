@@ -10,13 +10,12 @@ import usePlotStore from "@/lib/store/PlotStore";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-const SelectTrajectoryMap = () => {
+const SelectTrajectoryMap = ({plot}) => {
   const mapRef = useRef(null);
   const [clickedFeatureId, setClickedFeatureId] = useState(null);
   const setTrajectory = useTrajectoryStore((state) => state.setTrajectory);
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const plot = usePlotStore((state) => state.plot);
   const url = `/api/trajectories/points/plots/${plot?.id}`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 

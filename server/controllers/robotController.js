@@ -1,4 +1,6 @@
 const pool = require("../services/db");
+const fs = require("fs");
+const path = require("path");
 
 exports.getAllRobots = async (req, res) => {
   try {
@@ -9,11 +11,20 @@ exports.getAllRobots = async (req, res) => {
   }
 };
 
+exports.getRobotsIdAndName = async (req, res) => {
+  try {
+    const data = await pool.query("SELECT id, name FROM robot");
+    res.status(200).send(data.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.getAvailableRobots = async (req, res) => {
   try {
     const { start, end } = req.query;
     const query = `
-     SELECT r.id, r.name, r.description, r.image_data, r.puissance_kwh, r.operating_time
+     SELECT r.id, r.description, r.name, r.image, r.max_speed_mps, r.weight_kg
       FROM robot r
       WHERE NOT EXISTS (
          SELECT 1
@@ -59,47 +70,45 @@ exports.getRobotById = async (req, res) => {
 
 exports.createRobot = async (req, res) => {
   const {
-    weight,
     name,
     description,
-    puissance_kwh,
-    recharge_time,
-    operating_time,
-    frontaxle_steeringspeed,
-    maxangle_steering,
-    rearaxle_steeringspeed,
-    id_powercat,
-    availableTill,
-    steering_wheel,
-    driving_wheel,
-    dim_length,
-    dim_width,
-    dim_height,
+    locomotion,
+    weight_kg,
+    length_mm,
+    width_mm,
+    height_mm,
+    max_speed_mps,
+    autonomy,
+    manipulation,
+    on_board_sensors,
+    imagePath,
+    // activity_id,
   } = req.body;
+  const absoluteImagePath = path.resolve(imagePath);
+  const imageData = fs.readFileSync(absoluteImagePath);
+
   try {
     await pool.query(
       `INSERT INTO robot (
-	     weight, name, description, puissance_kwh, recharge_time, operating_time, frontaxle_steeringspeed, maxangle_steering, rearaxle_steeringspeed, id_powercat, "availableTill", steering_wheel, driving_wheel, dim_length, dim_width, dim_height)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+        name, description, locomotion, weight_kg, length_mm, width_mm, height_mm, max_speed_mps, autonomy, manipulation, on_board_sensors, image
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
       [
-        weight,
         name,
         description,
-        puissance_kwh,
-        recharge_time,
-        operating_time,
-        frontaxle_steeringspeed,
-        maxangle_steering,
-        rearaxle_steeringspeed,
-        id_powercat,
-        availableTill,
-        steering_wheel,
-        driving_wheel,
-        dim_length,
-        dim_width,
-        dim_height,
+        locomotion,
+        weight_kg,
+        length_mm,
+        width_mm,
+        height_mm,
+        max_speed_mps,
+        autonomy,
+        manipulation,
+        on_board_sensors,
+        imageData,
+        // activity_id,
       ]
     );
+
     res.status(200).send({ message: "Successfully added robot" });
   } catch (error) {
     res.status(500).json({ error: error.message });

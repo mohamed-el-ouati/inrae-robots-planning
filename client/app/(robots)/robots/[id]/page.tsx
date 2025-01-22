@@ -26,7 +26,7 @@ const page = async ({ params }: RobotPageProps) => {
   // format robot details for display
   const robotDetails = Object.entries(robot).reduce(
     (acc: { key: string; value: any }[], [key, value]) => {
-      if (key !== "image_data") {
+      if (key !== "image") {
         const formattedKey = formatAndCapitalize(key);
         acc.push({ key: formattedKey, value });
       }
@@ -37,12 +37,11 @@ const page = async ({ params }: RobotPageProps) => {
 
   return (
     <DetailsCard
-      title="Robot Details"
       data={robotDetails}
-      // hasAnImage={robot.image_data !== ""}
-      image={robot.image_data !== "" ? robot.image_data : null}
+      image={robot.image !== "" ? robot.image : null}
       editBtnLink={`/update-robot/${robot.id}`}
       deleteUrl={`${baseUrl}/robots/${robot.id}`}
+      redirectionUrlAfterDelete={"/robots"}
     />
   );
 };

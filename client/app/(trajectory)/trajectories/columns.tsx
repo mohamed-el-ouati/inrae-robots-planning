@@ -22,12 +22,20 @@ export const columns: ColumnDef<Trajectory>[] = [
     header: "ID",
   },
   {
-    accessorKey: "traj_name",
+    accessorKey: "name",
     header: "Name",
   },
   {
     accessorKey: "plot_name",
     header: "Plot",
+  },
+  {
+    accessorKey: "robot_name",
+    header: "Robot",
+  },
+  {
+    accessorKey: "activity_name",
+    header: "Activity",
   },
   {
     id: "actions",
@@ -38,6 +46,11 @@ export const columns: ColumnDef<Trajectory>[] = [
       const ViewInMap = (id: number) => {
         router.push("/trajectories/" + id);
       };
+
+      const UpdateTrajectory = (id: number) => {
+        router.push("/update-trajectory/" + id);
+      };
+
       const DeleteTrajectory = async (id: number, name: string) => {
         if (confirm(`Are you sure you want to delete trajectory ${name}?`)) {
           try {
@@ -49,7 +62,7 @@ export const columns: ColumnDef<Trajectory>[] = [
             );
 
             const tajectoryPointsResponse = await fetch(
-              `/api/trajectories/points/trajectory/${id}`,
+              `/api/trajectories/points/${id}`,
               {
                 method: "DELETE",
               }
@@ -80,10 +93,15 @@ export const columns: ColumnDef<Trajectory>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
             <DropdownMenuItem onClick={() => ViewInMap(trajectory.id)}>
               View in Map
             </DropdownMenuItem>
+
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => UpdateTrajectory(trajectory.id)}>
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 DeleteTrajectory(trajectory.id, trajectory.traj_name);

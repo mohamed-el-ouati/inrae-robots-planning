@@ -20,12 +20,12 @@ const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const columns: ColumnDef<RobotEssentials>[] = [
   {
-    accessorKey: "image_data",
+    accessorKey: "image",
     header: "Image",
     cell: ({ row }) => {
       return (
         <Image
-          src={row.getValue("image_data") || placeholderImg}
+          src={row.getValue("image") || placeholderImg}
           alt="Robot"
           width={84}
           height={84}
@@ -42,18 +42,21 @@ export const columns: ColumnDef<RobotEssentials>[] = [
     accessorKey: "description",
     header: "Description",
   },
+
   {
-    accessorKey: "puissance_kwh",
-    header: "Power (kWh)",
+    accessorKey: "locomotion",
+    header: "Locomotion mode",
+  },
+
+  {
+    accessorKey: "max_speed_mps",
+    header: "Max speed (MPS)",
   },
   {
-    accessorKey: "recharge_time",
-    header: "Recharge Time",
+    accessorKey: "weight_kg",
+    header: "Weight (kg)",
   },
-  {
-    accessorKey: "operating_time",
-    header: "Operating Time",
-  },
+
   {
     id: "actions",
     cell: ({ row }) => {

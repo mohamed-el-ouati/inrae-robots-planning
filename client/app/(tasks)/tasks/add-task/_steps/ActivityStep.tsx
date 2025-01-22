@@ -20,12 +20,11 @@ import useSWR from "swr";
 
 type SelectFormStepProps = {
   form: any;
-  name: string;
 };
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const ActivityStep = ({ form, name }: SelectFormStepProps) => {
+const ActivityStep = ({ form }: SelectFormStepProps) => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleChange = (value: string) => {
@@ -78,7 +77,7 @@ const ActivityStep = ({ form, name }: SelectFormStepProps) => {
           {!activities && <div>Loading activities...</div>}
           <FormField
             control={form.control}
-            name={name}
+            name="activity"
             render={({ field }) => (
               <FormItem>
                 <FormControl>

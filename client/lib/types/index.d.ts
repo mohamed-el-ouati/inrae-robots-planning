@@ -2,48 +2,25 @@ export type Robot = {
   id: number;
   name: string;
   description: string;
-  puissance_kwh: number;
-  recharge_time: string;
-  operating_time: string;
-  image_data: string;
-  weight: number;
-  front_axle_steering_speed: number;
-  max_angle_steering: number;
-  rear_axle_steering_speed: number;
-  id_powercat: number;
-  available_till: string;
-  steering_wheel: number;
-  driving_wheel: number;
-  dim_length: number;
-  dim_width: number;
-  dim_height: number;
+  locomotion: string;
+  weight_kg: number;
+  length_mm: number;
+  width_mm: number;
+  height_mm: number;
+  max_speed_mps: number;
+  autonomy: string;
+  manipulation: string;
+  on_board_sensors: strin;
+  image: string;
 };
 
 export type RobotEssentials = {
   id: number;
   name: string;
-  description: string;
-  puissance_kwh: number;
-  recharge_time: string;
-  operating_time: string;
-  image_data: string;
+  max_speed_mps: number;
+  weight_kg: number;
+  image: string;
 };
-
-export type Alerts = {
-  source: string;
-  description: string;
-  variables: string;
-  time: string;
-};
-
-
-export type Requests = {
-  id: number;
-  priority: number;
-  starttime: string;
-  plot_id: number;
-};
-
 
 export type Trajectory = {
   id: number;

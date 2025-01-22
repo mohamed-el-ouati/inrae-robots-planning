@@ -6,12 +6,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const CellActions = ({ itk }: { itk: any }) => {
   const router = useRouter();
@@ -24,40 +21,25 @@ const CellActions = ({ itk }: { itk: any }) => {
   const deleteItk = async (ItkId: number) => {
     if (confirm(`Are you sure to delete this ITK?`)) {
       try {
-        // Step 1: Fetch all related tasks to this ITK
-        const tasksResponse = await fetch(`/api/configurations/itk/${ItkId}`);
+        // Step 1: Delete ITK tasks
+        await fetch(`/api/configurations/itk/${ItkId}`, {
+          method: "DELETE",
+        });
 
-        const tasks = await tasksResponse.json();
-
-        console.log(tasks);
-        // Step 2: Delete each related task and their related items
-        for (const task of tasks) {
-          const taskId = task.configuration_id;
-
-          // Delete the ref between traj and config from configuration_ref table
-          await fetch(`/api/configurations-ref/configuration/${taskId}`, {
-            method: "DELETE",
-          });
-          // Delete the task itself (config)
-          await fetch(`/api/configurations/itk/${ItkId}`, {
-            method: "DELETE",
-          });
-        }
-
-        // Step 3: Delete the ITK
+        // Step 2: Delete the ITK
         await fetch(`/api/itks/${ItkId}`, {
           method: "DELETE",
         });
 
         toast({
           title: "Success",
-          description: "ITK and its related tasks and items have been deleted.",
+          description: "ITK and its related tasks have been deleted.",
         });
         router.refresh();
       } catch (error) {
         toast({
           title: "Error",
-          description: "Failed to delete ITK and its related tasks and items.",
+          description: "Failed to delete ITK and its related tasks.",
         });
         console.error("Failed to delete ITK:", error);
       }

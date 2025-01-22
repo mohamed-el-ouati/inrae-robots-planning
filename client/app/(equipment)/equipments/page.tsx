@@ -6,9 +6,9 @@ const equipmentsPage = () => {
   return (
     <div className="w-full">
       <div className="flex pb-4 justify-between gap-4">
-        <h1 className="text-4xl font-semibold">Equipments</h1>
+        <h1 className="text-4xl font-semibold">Equipements</h1>
         <Button asChild>
-          <Link href="/add-equipment">Add a new Equipment</Link>
+          <Link href="/add-equipment">Ajouter un nouvel équipement</Link>
         </Button>
       </div>
       <EquipmentsTable />

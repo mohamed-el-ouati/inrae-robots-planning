@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -17,7 +18,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { TimePickerDemo } from "../../../../../components/time-picker/time-picker-demo";
-import { useState } from "react";
 
 type TimeStepProps = {
   form: any;
@@ -26,26 +26,15 @@ type TimeStepProps = {
 const TimeStep = ({ form }: TimeStepProps) => {
   const [error, setError] = useState<string | null>(null);
 
-  const validateDates = () => {
-    const startDate = form.getValues("start_date");
-    const endDate = form.getValues("end_date");
-    if (endDate && startDate && endDate <= startDate) {
-      setError("End date must be later than start date");
-      return false;
-    }
-    setError(null);
-    return true;
-  };
-
   return (
     <div className="max-w-[400px] w-full flex flex-col gap-4">
-      <h2 className="text-2xl font-semibold">Time</h2>
+      {/* <h2 className="text-2xl font-semibold">Time</h2> */}
       <FormField
         control={form.control}
         name="start_date"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>Start Time</FormLabel>
+            <FormLabel className="font-semibold">Start Time</FormLabel>
             <Popover>
               <FormControl>
                 <PopoverTrigger asChild>
@@ -85,7 +74,7 @@ const TimeStep = ({ form }: TimeStepProps) => {
         name="end_date"
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <FormLabel>End Time</FormLabel>
+            <FormLabel className="font-semibold">End Time</FormLabel>
             <Popover>
               <FormControl>
                 <PopoverTrigger asChild>
@@ -120,6 +109,7 @@ const TimeStep = ({ form }: TimeStepProps) => {
           </FormItem>
         )}
       />
+      {error && <p className="text-red-500 text-start">{error}</p>}
     </div>
   );
 };

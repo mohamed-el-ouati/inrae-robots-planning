@@ -11,19 +11,19 @@ const trajectoriesPage = () => {
     <div className="w-full flex flex-col gap-4">
       <div className="flex pb-4 justify-between gap-4">
         <div className="flex gap-4">
-          <h1 className="text-4xl font-semibold">Plots</h1>
+          <h1 className="text-4xl font-semibold">Parcelles</h1>
           <div className="flex gap-2">
             <Button
               variant={view === "map" ? "ghost" : "outline"}
               onClick={() => setView("map")}
             >
-              Map view
+              Vue de la carte
             </Button>
             <Button
               variant={view === "list" ? "ghost" : "outline"}
               onClick={() => setView("list")}
             >
-              List view
+              Vue de liste
             </Button>
           </div>
         </div>

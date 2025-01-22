@@ -10,26 +10,19 @@ import {
   Route,
   Map,
   Sprout,
-  TriangleAlert,
   Drill,
   Waypoints,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./ui/collapsible";
 
 const SideBar = () => {
   const generalItems = [
-    // { label: "Dashboard", href: "/", icon: LayoutDashboard },
-    { label: "Calendrier", href: "/calendar", icon: Calendar },
-    { label: "Activités", href: "/activities", icon: Tractor },
+    { label: "Calendrier", href: "/", icon: Calendar },
+    { label: "Opérations culturales", href: "/activities", icon: Tractor },
   ];
   const itkItems = [
-    { label: "Planification de l'ITK", href: "/add-itk", icon: CalendarPlus },
-    { label: "ITK prévus", href: "/itks", icon: Sprout },
+    { label: "Planification d'un ITK", href: "/add-itk", icon: CalendarPlus },
+    { label: "ITK planifiés", href: "/itks", icon: Sprout },
   ];
   const ResourcesItems = [
     { label: "Robots", href: "/robots", icon: Tractor },
@@ -38,13 +31,12 @@ const SideBar = () => {
   const fieldItems = [
     { label: "Parcelles", href: "/plots", icon: Map },
     { label: "Trajectoires", href: "/trajectories", icon: Waypoints },
-    { label: "Trajectoire de référence", href: "/map", icon: Route },
+    {
+      label: "Trajectoires de référence",
+      href: "/reference-trajectory",
+      icon: Route,
+    },
   ];
-  const alertItems=[
-    { label: "Alerts", href: "/alerts", icon:TriangleAlert },
-    { label: "requests", href: "/requests", icon:TriangleAlert },
-];
-  const recources = [{ label: "Robot", href: "/robots", icon: Tractor }];
   const pathname = usePathname();
 
   return (
@@ -55,28 +47,6 @@ const SideBar = () => {
         </h3>
 
         <div className="mt-5 flex flex-col gap-1 w-full">
-          {/* <Collapsible>
-            <CollapsibleTrigger className="h-10 px-4 py-2 flex font-medium justify-between w-full hover:bg-secondary/80 rounded-md text-md">
-              <div className="flex gap-2 items-center">
-                <Tractor size={20} /> Recources
-              </div>
-              <ChevronDown />
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              {recources.map((item, index) => (
-                <Link key={index} href={item.href}>
-                  <SidebarButton
-                    variant={pathname === item.href ? "secondary" : "ghost"}
-                    className="pl-11"
-                  >
-                    {item.label}
-                  </SidebarButton>
-                </Link>
-              ))}
-            </CollapsibleContent>
-          </Collapsible> */}
-
-          {/* <h3 className="mx-3 font-semibold text-slate-900 my-2">General</h3> */}
           {generalItems.map((item, index) => (
             <Link key={index} href={item.href}>
               <SidebarButton
@@ -89,7 +59,7 @@ const SideBar = () => {
           ))}
 
           <h3 className="mx-3 font-semibold text-slate-900 my-2">
-            Technical itineraries (ITK)
+          Itinéraires techniques (ITK)
           </h3>
           {itkItems.map((item, index) => (
             <Link key={index} href={item.href}>
@@ -102,7 +72,7 @@ const SideBar = () => {
             </Link>
           ))}
 
-          <h3 className="mx-3 font-semibold text-slate-900 my-2">Resources</h3>
+          <h3 className="mx-3 font-semibold text-slate-900 my-2">Ressources</h3>
           {ResourcesItems.map((item, index) => (
             <Link key={index} href={item.href}>
               <SidebarButton
@@ -115,7 +85,7 @@ const SideBar = () => {
           ))}
 
           <h3 className="mx-3 font-semibold text-slate-900 my-2">
-            Field management
+          Gestion de terrain
           </h3>
           {fieldItems.map((item, index) => (
             <Link key={index} href={item.href}>
@@ -127,21 +97,6 @@ const SideBar = () => {
               </SidebarButton>
             </Link>
           ))}
-	
-	  <h3 className="mx-3 font-semibold text-slate-900 my-2">
-            Alerts
-          </h3>
-          {alertItems.map((item, index) => (
-            <Link key={index} href={item.href}>
-              <SidebarButton
-                variant={pathname === item.href ? "secondary" : "ghost"}
-                icon={item.icon}
-              >
-                {item.label}
-              </SidebarButton>
-            </Link>
-          ))}
-
         </div>
       </div>
     </aside>

@@ -6,25 +6,16 @@ export const transformRobotData = (data: any): Robot => {
     id: data.id,
     name: data.name,
     description: data.description,
-    puissance_kwh: data.puissance_kwh,
-    recharge_time: data.recharge_time ? formatDuration(data.recharge_time) : "",
-    operating_time: data.operating_time
-      ? formatDuration(data.operating_time)
-      : "",
-    image_data: data.image_data
-      ? convertImageDataToBase64(data.image_data.data)
-      : "",
-    weight: data.weight,
-    front_axle_steering_speed: data.frontaxle_steeringspeed,
-    max_angle_steering: data.maxangle_steering,
-    rear_axle_steering_speed: data.rearaxle_steeringspeed,
-    id_powercat: data.id_powercat,
-    available_till: data.availableTill,
-    steering_wheel: data.steering_wheel,
-    driving_wheel: data.driving_wheel,
-    dim_length: data.dim_length,
-    dim_width: data.dim_width,
-    dim_height: data.dim_height,
+    locomotion: data.locomotion, // New property
+    weight_kg: data.weight_kg, // New property (unit is kg)
+    length_mm: data.length_mm, // New property (unit is mm)
+    width_mm: data.width_mm, // New property (unit is mm)
+    height_mm: data.height_mm, // New property (unit is mm)
+    max_speed_mps: data.max_speed_mps, // New property (unit is m/s)
+    autonomy: data.autonomy,
+    manipulation: data.manipulation, // New property
+    on_board_sensors: data.on_board_sensors, // New property
+    image: data.image ? convertImageDataToBase64(data.image.data) : "",
   };
 };
 

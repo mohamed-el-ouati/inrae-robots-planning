@@ -38,42 +38,30 @@ export const columns: ColumnDef<Equipment>[] = [
   {
     accessorKey: "working_width_m",
     header: "Working Width (m)",
+    cell: ({ row }) => {
+      return row.getValue("working_width_m") || "-";
+    },
   },
   {
     accessorKey: "required_power_kw",
     header: "Required Power (kW)",
+    cell: ({ row }) => {
+      return row.getValue("required_power_kw") || "-";
+    },
   },
-  // {
-  //   accessorKey: "number_of_teeth",
-  //   header: "Number of Teeth",
-  // },
-  // {
-  //   accessorKey: "tooth_width_cm",
-  //   header: "Tooth Width (cm)",
-  // },
-  // {
-  //   accessorKey: "capacity_l",
-  //   header: "Capacity (L)",
-  // },
-  // {
-  //   accessorKey: "hitch",
-  //   header: "Hitch",
-  // },
-  // {
-  //   accessorKey: "pneumatic",
-  //   header: "Pneumatic",
-  // },
-  // {
-  //   accessorKey: "power_take_off",
-  //   header: "Power Take-Off",
-  // },
   {
     accessorKey: "hitch_ground_clearance",
     header: "Hitch Ground Clearance",
+    cell: ({ row }) => {
+      return row.getValue("hitch_ground_clearance") || "-";
+    },
   },
   {
     accessorKey: "weight_kg",
     header: "Weight (kg)",
+    cell: ({ row }) => {
+      return row.getValue("weight_kg") || "-";
+    },
   },
   {
     id: "actions",

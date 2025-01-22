@@ -17,6 +17,12 @@ const trajectoryController = require("../controllers/trajectoryController");
  *         plot_id:
  *           type: integer
  *           example: 1
+ *         robot_id:
+ *           type: integer
+ *           example: 1
+ *         activity_id:
+ *           type: integer
+ *           example: 1
  *     Point:
  *       type: object
  *       properties:
@@ -280,12 +286,12 @@ router.get(
 
 /**
  * @swagger
- * /trajectories/insert-name:
+ * /trajectories/insert:
  *   post:
  *     tags:
  *       - Trajectories
- *     summary: Insert a new trajectory name
- *     description: Add a new trajectory name to the database.
+ *     summary: Insert a new trajectory
+ *     description: Add a new trajectory to the database.
  *     requestBody:
  *       required: true
  *       content:
@@ -296,9 +302,15 @@ router.get(
  *               name:
  *                 type: string
  *                 example: "New Trajectory"
+ *               robot_id:
+ *                 type: integer
+ *                 example: 123
+ *               activity_id:
+ *                 type: integer
+ *                 example: 456
  *     responses:
  *       201:
- *         description: Trajectory name inserted successfully
+ *         description: Trajectory inserted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -320,7 +332,7 @@ router.get(
  *                   type: string
  *                   example: "Error message"
  */
-router.post("/insert-name", trajectoryController.insertTrajectoryName);
+router.post("/", trajectoryController.insertTrajectory);
 
 /**
  * @swagger
@@ -466,5 +478,91 @@ router.delete("/ref/:id", trajectoryController.deleteTrajectoryRef);
  *                   example: "Error message"
  */
 router.delete("/points/:id", trajectoryController.deleteTrajectoryPoints);
+
+/**
+ * @swagger
+ * /trajectories/plot/{id}:
+ *   get:
+ *     tags:
+ *       - Trajectories
+ *     summary: Get the plot that contains a specific trajectory.
+ *     description: Retrieve the plot that contains the given trajectory ID.
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: The ID of the trajectory for which to find the most containing plot.
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: Details of the plot containing the most trajectory points
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 plot_id:
+ *                   type: integer
+ *                   example: 24
+ *                 plot_name:
+ *                   type: string
+ *                   example: "2_3_4 PAL"
+ *       404:
+ *         description: Plot not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Plot not found"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Error message"
+ */
+router.get("/plot/:id", trajectoryController.getPlotContainingTrajectory);
+
+/**
+ * @swagger
+ * /trajectories/{id}:
+ *   put:
+ *     summary: Update an trajectory by ID
+ *     tags: [Trajectories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The trajectory ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *              $ref: '#/components/schemas/Trajectory'
+ *     responses:
+ *       200:
+ *         description: Successfully updated trajectroy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Trajectory'
+ *       404:
+ *         description: Trajectory not found
+ *       500:
+ *         description: Server error
+ */
+router.put("/:id", trajectoryController.updateTrajectory);
 
 module.exports = router;

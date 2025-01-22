@@ -8,7 +8,14 @@ export const taskSchema = z.object({
   robot: z.string(),
   equipment: z.string(),
   plot: z.string(),
-  trajectory: z.any(),
-  // itk_id: z.number(),
-  // itk_order: z.number(),
 });
+
+export const taskDefaultValues = {
+  activity_category: "",
+  activity: "",
+  robot: "",
+  plot: "",
+  equipment: "",
+  start_date: new Date(),
+  end_date: new Date(),
+};

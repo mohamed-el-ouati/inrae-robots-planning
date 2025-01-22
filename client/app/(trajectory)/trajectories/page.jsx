@@ -13,24 +13,24 @@ const trajectoriesPage = () => {
     <div className="w-full flex flex-col gap-4">
       <div className="flex pb-4 justify-between gap-4">
         <div className="flex gap-4">
-          <h1 className="text-4xl font-semibold">Trajectories</h1>
+          <h1 className="text-4xl font-semibold">Trajectoires</h1>
           <div className="flex gap-2">
             <Button
               variant={view === "map" ? "ghost" : "outline"}
               onClick={() => setView("map")}
             >
-              Map view
+              Vue de la carte
             </Button>
             <Button
               variant={view === "list" ? "ghost" : "outline"}
               onClick={() => setView("list")}
             >
-              List view
+              Vue de liste
             </Button>
           </div>
         </div>
         <Button asChild>
-          <Link href="/add-trajectory">Add a new Trajectory</Link>
+          <Link href="/add-trajectory">Ajouter une nouvelle trajectoire</Link>
         </Button>
       </div>
       {view == "map" && <MapView />}

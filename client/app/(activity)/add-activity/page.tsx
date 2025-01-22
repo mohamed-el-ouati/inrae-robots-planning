@@ -7,7 +7,7 @@ const AddActivity = () => {
   return (
     <Card className="w-[26rem]">
       <CardHeader>
-        <CardTitle className="text-3xl">Add a new Activity</CardTitle>
+        <CardTitle className="text-3xl">Ajouter une nouvelle activité</CardTitle>
       </CardHeader>
       <CardContent>
         <ActivityForm />

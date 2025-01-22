@@ -38,7 +38,6 @@ const page = async ({ params }: RobotPageProps) => {
 
   return (
     <DetailsCard
-      title="Equipment Details"
       data={equipmentDetails}
       image={
         equipment.image !== null
@@ -47,6 +46,7 @@ const page = async ({ params }: RobotPageProps) => {
       }
       editBtnLink={`/update-equipment/${params.id}`}
       deleteUrl={`${baseUrl}/equipments/${params.id}`}
+      redirectionUrlAfterDelete={"/equipments"}
     />
   );
 };

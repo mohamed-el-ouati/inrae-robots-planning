@@ -1,4 +1,3 @@
-import React from "react";
 import TrajectoryForm from "./TrajectoryForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -6,7 +5,7 @@ const addTrajectoryPage = () => {
   return (
     <Card className="w-[26rem]">
       <CardHeader>
-        <CardTitle className="text-3xl">Add a new Trajectory</CardTitle>
+        <CardTitle className="text-3xl">Ajouter une nouvelle trajectoire</CardTitle>
       </CardHeader>
       <CardContent>
         <TrajectoryForm />

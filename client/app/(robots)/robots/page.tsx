@@ -8,7 +8,7 @@ export default function RobotsPage() {
       <div className="flex pb-4 justify-between gap-4">
         <h1 className="text-4xl font-semibold">Robots</h1>
         <Button asChild>
-          <Link href="/add-robot">Add a new Robot</Link>
+          <Link href="/add-robot">Ajouter un nouveau robot</Link>
         </Button>
       </div>
       <RobotsTable />

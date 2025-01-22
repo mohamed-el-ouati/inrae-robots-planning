@@ -1,0 +1,82 @@
+$bg: #f1f5f9;
+$fg: #333;
+$sp: #0000;
+$hovergb: #afc4d8;
+$text: #000000;
+$time: 0.25s;
+// sine-ish easing from http://matthewlein.com/ceaser/
+$ease: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+$size: 35px;
+
+.breadcrumb {
+  margin: 1rem 0 1rem 0;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.breadcrumb {
+  font-weight: 500;
+  color: $text;
+
+  li {
+    background: $bg;
+    display: inline-block;
+    margin-right: 1.5rem;
+    position: relative;
+    &:first-child {
+      .link:before {
+        content: none;
+      }
+    }
+
+    .link {
+      display: inline-block;
+      padding: ($size/2) ($size/3 * 2);
+      line-height: $size;
+      text-decoration: none;
+      transition: background $time $ease, color $time $ease;
+
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        border-style: solid;
+        border-color: $bg;
+        border-width: $size 0 $size ($size/2);
+        transition: border-color $time $ease;
+      }
+
+      &:before {
+        right: 100%;
+        border-color: $bg;
+        border-left-color: transparent;
+      }
+      &:after {
+        left: 100%;
+        border-color: transparent;
+        border-left-color: $bg;
+      }
+
+      &:hover {
+        background: $hovergb;
+        color: $text;
+
+        &:before {
+          right: 100%;
+          border-color: $hovergb;
+          border-left-color: transparent;
+        }
+        &:after {
+          left: 100%;
+          border-color: transparent;
+          border-left-color: $hovergb;
+        }
+      }
+    }
+  }
+}

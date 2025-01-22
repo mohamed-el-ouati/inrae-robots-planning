@@ -15,17 +15,17 @@ const activitiesPage = () => {
     isLoading,
   } = useSWR(`/api/activities`, fetcher);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data!</div>;
+  if (isLoading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur lors du chargement des données !</div>;
   return (
     <div className="w-full">
       <div className="flex pb-4 justify-between gap-4">
-        <h1 className="text-4xl font-semibold">Activities</h1>
+        <h1 className="text-4xl font-semibold">Opérations culturales</h1>
         <Button asChild>
-          <Link href="/add-activity">Add a new Activity</Link>
+          <Link href="/add-activity">Ajouter une nouvelle activité</Link>
         </Button>
       </div>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<p>Chargement...</p>}>
         <DataTable columns={columns} data={activities} />
       </Suspense>
     </div>

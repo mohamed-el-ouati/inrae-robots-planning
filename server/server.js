@@ -40,21 +40,12 @@ const specs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use("/robots", require("./routes/robotRoute"));
-app.use("/tasks", require("./routes/taskRoute"));
 app.use("/activities", require("./routes/activityRoute"));
 app.use("/activity-categories", require("./routes/activityCategoryRoute"));
-
 app.use("/equipments", require("./routes/equipmentRoute"));
 app.use("/plots", require("./routes/plotRoute"));
 app.use("/trajectories", require("./routes/trajectoryRoute"));
 app.use("/configurations", require("./routes/configurationRoute"));
-app.use("/configurations-ref", require("./routes/configurationRefRoute"));
 app.use("/itks", require("./routes/itkRoute"));
-app.use("/alerts", require("./routes/alertRoute"));
-app.use("/requests", require("./routes/requestRoute"));
-app.use(
-  "/robots-power-categories",
-  require("./routes/robotPowerCategoryRoute")
-);
 
 app.listen(port, () => console.log(`Server has started on port: ${port}`));

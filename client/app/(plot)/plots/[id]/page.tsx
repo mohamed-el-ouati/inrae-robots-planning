@@ -36,16 +36,16 @@ const trajectoryPage = ({ params }: TrajectoryPageProps) => {
   const url = `/api/plots/${params.id}`;
   const { data, error, isLoading } = useSWR(url, fetcher);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data</div>;
+  if (isLoading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur lors du chargement des données</div>;
 
   return (
     <Card className={"w-full lg:w-3/4 xl:w-3/6 "}>
       <CardHeader className="flex flex-row flex-wrap justify-between items-center">
-        <CardTitle className="text-3xl">Plot Details</CardTitle>
+        <CardTitle className="text-3xl">Détails des parcelles</CardTitle>
         <div className="flex gap-2">
           <Button variant="outline">
-            <Trash2 className="mr-2 h-4 w-4" /> Delete
+            <Trash2 className="mr-2 h-4 w-4" /> Supprimer
           </Button>
         </div>
       </CardHeader>

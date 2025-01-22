@@ -39,7 +39,7 @@ exports.insertEquipment = async (req, res) => {
     power_take_off,
     hitch_ground_clearance,
     weight_kg,
-    // imagePath,
+    imagePath,
   } = req.body;
 
   const query = `
@@ -55,14 +55,15 @@ exports.insertEquipment = async (req, res) => {
       pneumatic,
       power_take_off,
       hitch_ground_clearance,
-      weight_kg
+      weight_kg,
+      image
     ) VALUES (
-      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12
+      $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
     )
   `;
 
-  // const absoluteImagePath = path.resolve(imagePath);
-  // const imageData = fs.readFileSync(absoluteImagePath);
+  const absoluteImagePath = path.resolve(imagePath);
+  const imageData = fs.readFileSync(absoluteImagePath);
 
   try {
     await pool.query(query, [
@@ -78,7 +79,7 @@ exports.insertEquipment = async (req, res) => {
       power_take_off,
       hitch_ground_clearance,
       weight_kg,
-      // imageData,
+      imageData,
     ]);
     res.status(200).send({ message: "Equipment inserted successfully" });
   } catch (error) {

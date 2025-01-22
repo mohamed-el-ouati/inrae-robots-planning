@@ -11,14 +11,7 @@ export const columns: ColumnDef<Activity>[] = [
     accessorKey: "category",
     header: "Category",
   },
-  {
-    accessorKey: "robot",
-    header: "Robot",
-  },
-  {
-    accessorKey: "equipment",
-    header: "Equipment",
-  },
+
   {
     id: "actions",
     cell: ({ row }) => {

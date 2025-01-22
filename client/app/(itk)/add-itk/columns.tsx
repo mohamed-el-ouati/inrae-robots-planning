@@ -9,15 +9,15 @@ import { Trash2 } from "lucide-react";
 export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "start_date",
-    header: "Start date",
+    header: "Date de début",
   },
   {
     accessorKey: "end_date",
-    header: "End date",
+    header: "Date de fin",
   },
   {
     accessorKey: "activity_name",
-    header: "Activity",
+    header: "Tâche",
   },
   {
     accessorKey: "robot_name",
@@ -29,12 +29,12 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: "plot_name",
-    header: "Plot",
+    header: "Parcelle",
   },
-  {
-    accessorKey: "trajectory_name",
-    header: "Trajectory",
-  },
+  // {
+  //   accessorKey: "trajectory_name",
+  //   header: "Trajectory",
+  // },
   {
     id: "actions",
     cell: ({ row }) => {

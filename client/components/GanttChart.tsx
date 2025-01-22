@@ -7,15 +7,17 @@ type GanttChartProps = {
 };
 
 const GanttChart = ({ data }: GanttChartProps) => {
-  const transformedGanttData: GanttTask[] = data.map((event: any) => ({
-    start: new Date(event.start_date),
-    end: new Date(event.end_date),
-    name: event.activity_name,
-    id: event.configuration_ref_id,
-    type: "task",
-    progress: 0,
-    styles: { backgroundColor: getRandomColor() },
-  }));
+  const transformedGanttData: GanttTask[] = data.map(
+    (event: any, index: number) => ({
+      start: new Date(event.start_date),
+      end: new Date(event.end_date),
+      name: event.activity_name,
+      id: event.configuration_ref_id || `task-${index}`,
+      type: "task",
+      progress: 0,
+      styles: { backgroundColor: getRandomColor() },
+    })
+  );
 
   return <Gantt tasks={transformedGanttData} />;
 };
